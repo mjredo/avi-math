@@ -7,4 +7,4 @@ Practice site for enVision Algebra 1 (class "7th Algebra Yellow"). It runs as a 
 1. In Cloudflare, go to Workers & Pages → Create → Worker. Name it `avi-math-sync`, deploy it, then replace its code with `worker/worker.js` and deploy again.
 2. Go to Storage & Databases → KV → Create a namespace called `avi-math`.
 3. In the Worker, go to Settings → Bindings → Add → KV namespace. Set the variable name to `AVLAB` and pick the namespace `avi-math`.
-4. Put the Worker's URL into `SYNC_URL_DEFAULT` in `index.html`.
+4. The Worker is live at https://avi-math-sync.mrnarang.workers.dev (KV namespace `av-math`, binding `AVLAB`). This URL is set in `SYNC_URL_DEFAULT` in `index.html`.

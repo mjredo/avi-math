@@ -943,7 +943,7 @@ function renderPrep(){const el=document.getElementById("prep");if(!el)return;con
 
 loadLocal();open(CUR);render();
 // ---------- progress sync on any browser (Cloudflare Worker; used when the page isn't running inside Claude) ----------
-const SYNC_URL_DEFAULT="";// set after the Worker is deployed, e.g. "https://avi-math-sync.<name>.workers.dev"
+const SYNC_URL_DEFAULT="https://avi-math-sync.mrnarang.workers.dev";// set after the Worker is deployed, e.g. "https://avi-math-sync.<name>.workers.dev"
 function syncUrl(){try{return(localStorage.getItem("avlab:syncurl")||SYNC_URL_DEFAULT).replace(/\/+$/,"")}catch(e){return SYNC_URL_DEFAULT}}
 let SYNC={mode:"local",last:null,err:null};
 function remoteDb(base){
