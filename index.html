@@ -898,7 +898,7 @@ function renderParent(){
   h+=`</tbody></table></div><h3 class="rtitle" style="font-size:17px">Questions in ${typeName(round())}</h3><div class="tbl"><table><thead><tr><th>Q</th><th>Skill</th><th>Result</th><th>Tries</th><th>Wrong answers picked</th><th>Steps shown</th></tr></thead><tbody>`;
   const lab={first:"Right first try",guided:"Solved with steps",working:"Still working",new:"Not started"};
   items().forEach(it=>{const s=ist(it.id);h+=`<tr><td><b>${it.label}</b></td><td>${SK[it.skill]}</td><td class="st ${s.status}">${lab[s.status]}</td><td>${s.tries||0}</td><td>${(s.wrong||[]).join(" · ")||"—"}</td><td>${(s.revealed||[]).length}</td></tr>`});
-  h+=`</tbody></table></div><p class="note">${db?"Progress is saved to this page, so it carries across devices and Claude can read it to plan next week.":"Progress shown is from this device only."} “Steps shown” counts steps where she missed three times and the page showed that step.</p>`;
+  h+=`</tbody></table></div><p class="note">${SYNC.mode==="claude"?"Progress is saved to this page, so it carries across devices and Claude can read it to plan next week.":SYNC.mode==="web"?(SYNC.err?"⚠ Couldn't reach the sync service just now ("+SYNC.err+"). Progress is saved on this browser and will sync when it's back.":"Progress syncs online, so it carries over to any browser"+(SYNC.last?" (last synced "+new Date(SYNC.last).toLocaleTimeString()+")":"")+"."):"Progress is saved on this browser only (online sync isn't set up yet)."} “Steps shown” counts steps where she missed three times and the page showed that step.</p>`;
   const mid=isMid(),T3=mid?"practice tests":"timed tests";
   h+=`<div class="card override"><h3 class="rtitle" style="font-size:17px">Parent override</h3><p class="note">Move ${A().name} to a later step without finishing the current one. This needs the parent code.${(S.overrides||[]).length?` Used ${(S.overrides||[]).length} time(s) here: ${(S.overrides||[]).map(o=>o.to+" ("+new Date(o.at).toLocaleDateString()+")").join(", ")}.`:""}</p>
   <p class="note">Type the parent code, <b>or</b> answer this parent check: ${(PCH||newPCH(),PCH).q}</p><div class="answer"><input class="in" id="pcode" type="password" autocomplete="off" placeholder="Code or answer" aria-label="Parent code or answer"></div>
@@ -942,11 +942,30 @@ function renderPrep(){const el=document.getElementById("prep");if(!el)return;con
     return`<li class="${done?"done":now?"now":""}"><span class="pday">Step ${k+1}</span><span class="pgoal">${d.goal}</span><span class="pact">${done?"✓ Done":now?(CUR===PREP_ID?"← now":`<button class="btn sm" data-open="${PREP_ID}">Start</button>`):""}</span></li>`}).join("")}</ol>`}
 
 loadLocal();open(CUR);render();
-(async()=>{try{db=await window.claude?.use?.("db")}catch(e){db=null}if(!db)return;
-  try{const snap=await db.collection("progress").get();let hasT2=false;
-    snap.docs.forEach(d=>{const v=d.data();if(!v||!v.json)return;let st;try{st=JSON.parse(v.json)}catch(e){return}const id=v.id||(d.id==="oct26"?"T2-Q2":d.id);if(!AM(id))return;if(id==="T2-Q2")hasT2=true;st.id=id;
-      if(!STORE[id]||(v.updatedAt||0)>(STORE[id].updatedAt||0)){STORE[id]=st;lsSet("avlab2:"+storeKey(id),st)}});
-    ITEMS={};S=STORE[CUR];render()}catch(e){}})();
+// ---------- progress sync on any browser (Cloudflare Worker; used when the page isn't running inside Claude) ----------
+const SYNC_URL_DEFAULT="";// set after the Worker is deployed, e.g. "https://avi-math-sync.<name>.workers.dev"
+function syncUrl(){try{return(localStorage.getItem("avlab:syncurl")||SYNC_URL_DEFAULT).replace(/\/+$/,"")}catch(e){return SYNC_URL_DEFAULT}}
+let SYNC={mode:"local",last:null,err:null};
+function remoteDb(base){
+  const req=async(method,path,body)=>{const r=await fetch(base+path,{method,headers:body?{"Content-Type":"application/json"}:{},body:body?JSON.stringify(body):undefined,cache:"no-store"});
+    if(r.status===409)return r.json();if(!r.ok)throw new Error("sync "+r.status);SYNC.last=Date.now();SYNC.err=null;return r.json()};
+  return{collection:name=>({get:async()=>{const rows=await req("GET","/c/"+name);return{docs:rows.map(x=>({id:x.id,data:()=>x.data}))}}}),
+    doc:path=>({set:async obj=>{const [c,id]=path.split("/");try{return await req("PUT","/d/"+c+"/"+encodeURIComponent(id),obj)}catch(e){SYNC.err=String(e.message||e);throw e}}})}}
+// a state she hasn't touched yet (fresh browser) never replaces saved progress
+function untouched(st){return!st||!st.rounds||(st.rounds.length===1&&!Object.values(st.rounds[0].items||{}).some(x=>x&&x.tries))}
+async function pullProgress(){if(!db)return false;let changed=false;
+  const snap=await db.collection("progress").get();const seen=new Set();
+  snap.docs.forEach(d=>{const v=d.data();if(!v||!v.json)return;let st;try{st=JSON.parse(v.json)}catch(e){return}const id=v.id||d.id;if(!AM(id))return;st.id=id;seen.add(id);
+    const loc=STORE[id];if(!loc||untouched(loc)&&!untouched(st)||(v.updatedAt||0)>(loc.updatedAt||0)){STORE[id]=st;lsSet("avlab2:"+storeKey(id),st);changed=true}});
+  // push anything this browser has that's newer than what's saved
+  for(const id in STORE){const st=STORE[id];if(untouched(st))continue;const rv=snap.docs.find(d=>(d.data()||{}).id===id||d.id===storeKey(id));const ru=rv?(rv.data().updatedAt||0):-1;
+    if((st.updatedAt||0)>ru){try{await db.doc("progress/"+storeKey(id)).set({id,json:JSON.stringify(st),updatedAt:st.updatedAt,streak:st.streak,rounds:st.rounds.length,proficient:st.proficient})}catch(e){}}}
+  return changed}
+(async()=>{let cdb=null;try{cdb=await window.claude?.use?.("db")}catch(e){cdb=null}
+  if(cdb){db=cdb;SYNC.mode="claude"}else if(syncUrl()){db=remoteDb(syncUrl());SYNC.mode="web"}else return;
+  try{if(await pullProgress()){ITEMS={};S=STORE[CUR];render()}}catch(e){SYNC.err=String(e.message||e)}
+  if(SYNC.mode==="web")document.addEventListener("visibilitychange",async()=>{if(document.visibilityState!=="visible")return;try{if(await pullProgress()){ITEMS={};S=STORE[CUR];flash={};render()}}catch(e){}});
+})();
 
 </script>
 
