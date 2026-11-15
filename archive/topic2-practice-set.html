@@ -1,0 +1,409 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Topic 2 Linear Equations Practice</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Lexend:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one column of question cards on a faint graph-paper ground, sticky score bar, results panel at the end */
+:root{
+  --bg:#f5f8f9; --grid:#e3ecef; --surface:#ffffff; --fg:#1b2a30; --muted:#5b6f77;
+  --accent:#16707a; --accent-soft:#dff0f1; --line:#cfdde1;
+  --good:#1e7d45; --good-soft:#e2f4e8; --bad:#b33a2b; --bad-soft:#fbe7e3; --warn:#9a6a00;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Lexend", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1a1e; --grid:#16252b; --surface:#15232a; --fg:#e4eef1; --muted:#97adb5;
+  --accent:#5cc3cc; --accent-soft:#163a3f; --line:#27404a;
+  --good:#5fd08d; --good-soft:#153625; --bad:#ff8a78; --bad-soft:#3d1d18; --warn:#e6b450; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1a1e; --grid:#16252b; --surface:#15232a; --fg:#e4eef1; --muted:#97adb5;
+  --accent:#5cc3cc; --accent-soft:#163a3f; --line:#27404a;
+  --good:#5fd08d; --good-soft:#153625; --bad:#ff8a78; --bad-soft:#3d1d18; --warn:#e6b450; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+header h1{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,5vw,2.5rem);line-height:1.1;margin:0 0 6px;text-wrap:balance}
+.eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+header p{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin:20px 0 8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.bar .track{flex:1 1 160px;height:8px;background:var(--accent-soft);border-radius:99px;overflow:hidden}
+.bar .fill{height:100%;width:0;background:var(--accent);transition:width .3s}
+.bar .nums{font-family:var(--mono);font-size:.9rem;font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin:12px 0 0}
+.pill{display:inline-block;font-size:.7rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.pill.easy{color:var(--good);border-color:currentColor}.pill.medium{color:var(--warn);border-color:currentColor}.pill.hard{color:var(--bad);border-color:currentColor}
+.pill.word{color:var(--accent);border-color:currentColor}
+section.skill{margin-top:34px}
+section.skill h2{font-family:var(--display);font-weight:600;font-size:1.3rem;margin:0 0 2px}
+section.skill .lesson{font-size:.85rem;color:var(--muted);margin:0 0 12px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:12px;display:grid;gap:10px}
+.q.right{border-color:var(--good)}.q.wrong{border-color:var(--bad)}
+.qhead{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.qnum{font-family:var(--mono);font-weight:500;color:var(--accent)}
+.prompt{margin:0}
+.m{font-family:var(--mono);white-space:nowrap}
+.opts{display:grid;gap:6px}
+.opts label{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.opts label:hover{border-color:var(--accent)}
+.opts input{margin-top:5px;accent-color:var(--accent)}
+.opts label.correct{background:var(--good-soft);border-color:var(--good)}
+.opts label.chosen-wrong{background:var(--bad-soft);border-color:var(--bad)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input[type=text]{font:inherit;font-family:var(--mono);padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);width:12rem;max-width:100%}
+button{font:inherit;font-weight:600;padding:8px 16px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);cursor:pointer}
+button.ghost{background:transparent;color:var(--accent)}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,label:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.hint{font-size:.9rem;color:var(--muted)}
+.fb{border-radius:8px;padding:10px 12px;font-size:.95rem}
+.fb.ok{background:var(--good-soft)}.fb.no{background:var(--bad-soft)}
+.fb b{display:block;margin-bottom:2px}
+.results{margin-top:40px;background:var(--surface);border:2px solid var(--accent);border-radius:14px;padding:18px 20px}
+.results h2{font-family:var(--display);margin:0 0 8px}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+.tbl{overflow-x:auto}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.status-m{color:var(--good);font-weight:600}.status-p{color:var(--warn);font-weight:600}.status-n{color:var(--bad);font-weight:600}
+.save{margin-top:10px;font-size:.9rem;color:var(--muted)}
+.q.coaching{border-color:var(--warn)}
+.coach{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:12px}
+.coach-title{font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--warn)}
+.step{display:grid;gap:8px}
+.step-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.step-q{margin:0}
+.step.step-ok .step-label{color:var(--good)}.step.step-shown .step-label{color:var(--bad)}
+.step-fb{font-size:.9rem;border-radius:6px;padding:6px 10px}
+.step-fb.ok{background:var(--good-soft)}.step-fb.no{background:var(--bad-soft)}
+.step-done{background:var(--accent-soft);border-radius:8px;padding:10px 12px}
+button.small{padding:6px 12px;font-size:.9rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">enVision Algebra 1 · Topic 2 · Linear Equations</div>
+  <h1>Topic 2 Practice Set</h1>
+  <p>27 questions covering lessons 2‑1 to 2‑4, plus 3 review questions from Topic 1. They go from easy to hard and include word problems. Answer one and press <b>Check</b>. If it's wrong, you won't see the answer. Instead you'll get a step-by-step walkthrough, then a second try at the question. Use scratch paper.</p>
+  <p class="hint">Typed answers: a fraction like <span class="m">-3/4</span>, a decimal, or a whole number all work.</p>
+  <div class="legend"><span class="pill easy">easy</span><span class="pill medium">medium</span><span class="pill hard">hard</span><span class="pill word">word problem</span></div>
+</header>
+<div class="bar" role="status"><span class="nums" id="nums">0 / 27 done · 0 right first try · 0 with help</span><div class="track"><div class="fill" id="fill"></div></div><button class="ghost" id="restart" type="button">Start over</button></div>
+<main id="quiz"></main>
+<div class="results" id="results" hidden>
+  <h2>Your results</h2>
+  <p id="summary"></p>
+  <div class="tbl"><table><thead><tr><th>Skill</th><th>First try</th><th>With help</th><th>Missed</th><th>Status</th></tr></thead><tbody id="rtbody"></tbody></table></div>
+  <p class="save" id="saveMsg"></p>
+</div>
+</div>
+
+<script>
+const SKILLS = {
+  A:{name:"Finding slope", lesson:"2-1 Slope-Intercept Form"},
+  B:{name:"Slope-intercept form", lesson:"2-1 Slope-Intercept Form"},
+  C:{name:"Slope-intercept word problems", lesson:"2-1 Slope-Intercept Form"},
+  D:{name:"Point-slope form", lesson:"2-2 Point-Slope Form"},
+  E:{name:"Point-slope word problems", lesson:"2-2 Point-Slope Form"},
+  F:{name:"Standard form", lesson:"2-3 Standard Form"},
+  G:{name:"Standard form word problems", lesson:"2-3 Standard Form"},
+  H:{name:"Parallel and perpendicular lines", lesson:"2-4 Parallel and Perpendicular Lines"},
+  R:{name:"Topic 1 review (last week's weak spots)", lesson:"1-5 to 1-7 Inequalities and absolute value"}
+};
+// type mc: opts [[text, why-wrong or null for correct]]; type num: ans number
+const Q = [
+ {id:"A1",s:"A",d:"easy",t:"num",p:'Find the slope of the line through <span class="m">(2, 5)</span> and <span class="m">(6, 13)</span>.',ans:2,
+  ex:'Slope = (change in y) ÷ (change in x) = (13 − 5) ÷ (6 − 2) = 8 ÷ 4 = <b>2</b>.'},
+ {id:"A2",s:"A",d:"medium",t:"num",p:'Find the slope of the line through <span class="m">(−3, 4)</span> and <span class="m">(5, −2)</span>.',ans:-0.75,
+  ex:'(−2 − 4) ÷ (5 − (−3)) = −6 ÷ 8 = <b>−3/4</b>. Watch the double negative: 5 − (−3) = 8.'},
+ {id:"A3",s:"A",d:"hard",t:"num",p:'The line through <span class="m">(k, 7)</span> and <span class="m">(3, −1)</span> has slope 4. What is k?',ans:5,
+  ex:'Slope = (7 − (−1)) ÷ (k − 3) = 8 ÷ (k − 3) = 4. So k − 3 = 2 and <b>k = 5</b>. Check: (7 + 1) ÷ (5 − 3) = 4. ✓'},
+
+ {id:"B1",s:"B",d:"easy",t:"mc",p:'What are the slope and y‑intercept of <span class="m">y = −3x + 7</span>?',
+  opts:[["slope −3, y‑intercept 7",null],["slope 7, y‑intercept −3","Swapped: in y = mx + b, m (with x) is the slope."],["slope 3, y‑intercept 7","The negative sign belongs to the slope."],["slope −3, y‑intercept −7","The constant is +7, so b = 7."]],
+  ex:'In y = mx + b, m is the slope and b is the y‑intercept: m = −3, b = 7.'},
+ {id:"B2",s:"B",d:"medium",t:"mc",p:'Which equation is the line through <span class="m">(0, −4)</span> and <span class="m">(2, 2)</span>?',
+  opts:[["y = 3x − 4",null],["y = −4x + 3","Slope and intercept are swapped."],["y = 3x + 4","(0, −4) is on the line, so b = −4, not +4."],["y = ⅓x − 4","That is run ÷ rise. Slope is rise ÷ run = 6 ÷ 2."]],
+  ex:'(0, −4) is the y‑intercept, so b = −4. Slope = (2 − (−4)) ÷ (2 − 0) = 6 ÷ 2 = 3. So y = 3x − 4.'},
+ {id:"B3",s:"B",d:"hard",t:"mc",p:'Write the equation of the line with slope <span class="m">−½</span> that passes through <span class="m">(4, 1)</span>, in slope‑intercept form.',
+  opts:[["y = −½x + 3",null],["y = −½x + 1","1 is the point's y‑value, not the y‑intercept (the line doesn't cross at x = 0 there)."],["y = −½x − 1","Sign slip: 1 = −2 + b means b = 1 + 2 = 3."],["y = 2x − 7","Wrong slope: the reciprocal was used instead of −½."]],
+  ex:'Substitute: 1 = −½(4) + b → 1 = −2 + b → b = 3. So y = −½x + 3.'},
+
+ {id:"C1",s:"C",d:"easy",t:"mc",w:1,p:'A gym charges a $25 sign‑up fee plus $15 per month. Which equation gives the total cost y after x months?',
+  opts:[["y = 15x + 25",null],["y = 25x + 15","The $25 is paid once, so it's the starting value (b). The $15 repeats each month, so it's the rate (m)."],["y = 40x","This charges the sign‑up fee every month."],["y = 15x − 25","The fee adds to the cost."]],
+  ex:'Rate (per month) = slope = 15. One‑time starting amount = y‑intercept = 25. y = 15x + 25.'},
+ {id:"C2",s:"C",d:"medium",t:"num",w:1,p:'A plumber charges $65 for a visit plus $40 per hour. A bill came to $225. How many hours did the plumber work?',ans:4,
+  ex:'225 = 40h + 65 → 40h = 160 → <b>h = 4</b> hours.'},
+ {id:"C3",s:"C",d:"hard",t:"num",w:1,p:'A phone battery is at 92% at 1:00 pm and 68% at 4:00 pm, and it drains at a constant rate. What percent will it show at 7:30 pm?',ans:40,
+  ex:'Rate = (68 − 92) ÷ 3 = −8% per hour. 7:30 pm is 6.5 hours after 1:00 pm: 92 − 8(6.5) = 92 − 52 = <b>40%</b>.'},
+
+ {id:"D1",s:"D",d:"easy",t:"mc",p:'Which is the point‑slope equation of the line through <span class="m">(3, −2)</span> with slope 5?',
+  opts:[["y + 2 = 5(x − 3)",null],["y − 2 = 5(x − 3)","y − (−2) becomes y + 2."],["y + 2 = 5(x + 3)","x − 3 stays x − 3 because the point's x is +3."],["y − 3 = 5(x + 2)","The x and y values of the point are swapped."]],
+  ex:'Point‑slope form is y − y₁ = m(x − x₁). With (3, −2): y − (−2) = 5(x − 3), so y + 2 = 5(x − 3).'},
+ {id:"D2",s:"D",d:"medium",t:"mc",p:'Which is an equation of the line through <span class="m">(−1, 4)</span> and <span class="m">(3, −4)</span>?',
+  opts:[["y − 4 = −2(x + 1)",null],["y − 4 = 2(x + 1)","The slope is negative: y goes down 8 as x goes up 4."],["y − 4 = −2(x − 1)","x₁ = −1, so x − (−1) = x + 1."],["y + 4 = −½(x − 3)","Slope is rise ÷ run = −8 ÷ 4, not 4 ÷ −8."]],
+  ex:'Slope = (−4 − 4) ÷ (3 − (−1)) = −8 ÷ 4 = −2. Using (−1, 4): y − 4 = −2(x + 1). (Using the other point, y + 4 = −2(x − 3) is the same line.)'},
+ {id:"D3",s:"D",d:"hard",t:"mc",p:'Rewrite <span class="m">y − 6 = −⅔(x + 3)</span> in slope‑intercept form.',
+  opts:[["y = −⅔x + 4",null],["y = −⅔x + 8","Sign error: −⅔ · 3 = −2, so you add −2, not +2."],["y = −⅔x + 3","The 3 has to be multiplied by −⅔ too (distribute to both terms)."],["y = −⅔x + 9","The 3 was added without multiplying by −⅔."]],
+  ex:'Distribute: y − 6 = −⅔x − 2. Add 6: y = −⅔x + 4.'},
+
+ {id:"E1",s:"E",d:"medium",t:"num",w:1,p:'A candle burns down at a constant rate. After 2 hours it is 18 cm tall. After 5 hours it is 12 cm tall. How tall was it before it was lit (in cm)?',ans:22,
+  ex:'Slope = (12 − 18) ÷ (5 − 2) = −2 cm per hour. Point‑slope: y − 18 = −2(x − 2). At x = 0: y = 18 + 4 = <b>22 cm</b>.'},
+ {id:"E2",s:"E",d:"hard",t:"num",w:1,p:'A taxi ride of 3 miles costs $11.50 and a ride of 8 miles costs $24.00. The cost is linear. How much does a 15‑mile ride cost (in dollars)?',ans:41.5,
+  ex:'Slope = (24 − 11.50) ÷ (8 − 3) = 12.50 ÷ 5 = $2.50 per mile. y − 11.50 = 2.5(x − 3). At x = 15: y = 11.50 + 2.5(12) = <b>$41.50</b>.'},
+
+ {id:"F1",s:"F",d:"easy",t:"mc",p:'What are the intercepts of <span class="m">3x + 4y = 24</span>?',
+  opts:[["x‑intercept 8, y‑intercept 6",null],["x‑intercept 6, y‑intercept 8","Swapped: for the x‑intercept set y = 0: 3x = 24."],["x‑intercept 3, y‑intercept 4","Those are the coefficients, not the intercepts."],["x‑intercept 24, y‑intercept 24","You still divide 24 by the coefficient."]],
+  ex:'Set y = 0: 3x = 24, x = 8. Set x = 0: 4y = 24, y = 6.'},
+ {id:"F2",s:"F",d:"medium",t:"mc",p:'Write <span class="m">y = ⅔x − 5</span> in standard form Ax + By = C, with integers and A positive.',
+  opts:[["2x − 3y = 15",null],["2x + 3y = 15","Moving 3y to the other side makes it −3y."],["2x − 3y = −15","Sign slip on the constant: 3y = 2x − 15 → 2x − 3y = 15."],["2x − 3y = 5","Every term must be multiplied by 3, including −5."]],
+  ex:'Multiply every term by 3: 3y = 2x − 15. Rearrange: −2x + 3y = −15. Multiply by −1 so A is positive: 2x − 3y = 15.'},
+ {id:"F3",s:"F",d:"hard",t:"num",p:'What is the slope of <span class="m">5x − 2y = 8</span>?',ans:2.5,
+  ex:'Solve for y: −2y = −5x + 8 → y = (5/2)x − 4. Slope = <b>5/2</b>. (Shortcut: slope = −A ÷ B = −5 ÷ −2.)'},
+
+ {id:"G1",s:"G",d:"medium",t:"num",w:1,p:'The drama club sells adult tickets for $12 and student tickets for $8. It made $960. If 50 adult tickets were sold, how many student tickets were sold?',ans:45,
+  ex:'12x + 8y = 960. With x = 50: 600 + 8y = 960 → 8y = 360 → <b>y = 45</b>.'},
+ {id:"G2",s:"G",d:"hard",t:"mc",w:1,p:'For the same club, <span class="m">12x + 8y = 960</span>, where x = adult tickets and y = student tickets. Which statement is true?',
+  opts:[["(0, 120) means: if no adult tickets were sold, 120 student tickets were sold.",null],["(0, 80) means 80 student tickets and no adult tickets.","Set x = 0: 8y = 960 gives y = 120, not 80."],["(120, 0) means 120 adult tickets and no student tickets.","Set y = 0: 12x = 960 gives x = 80, not 120."],["(0, 120) means 120 adult tickets were sold.","x is adult tickets. In (0, 120) x = 0, so no adult tickets."]],
+  ex:'y‑intercept: x = 0 → 8y = 960 → y = 120 (all student tickets). x‑intercept: y = 0 → 12x = 960 → x = 80 (all adult tickets).'},
+
+ {id:"H1",s:"H",d:"easy",t:"mc",p:'What is the slope of a line perpendicular to <span class="m">y = 4x − 1</span>?',
+  opts:[["−¼",null],["4","Same slope means parallel, not perpendicular."],["−4","Flip the fraction too: the opposite reciprocal of 4 is −¼."],["¼","Change the sign too: the opposite reciprocal is negative."]],
+  ex:'Perpendicular slopes are opposite reciprocals: 4 → −¼. Check: 4 × (−¼) = −1.'},
+ {id:"H2",s:"H",d:"medium",t:"mc",p:'Which line is parallel to <span class="m">y = −3x + 2</span> and passes through <span class="m">(2, 1)</span>?',
+  opts:[["y = −3x + 7",null],["y = −3x − 5","1 = −6 + b gives b = 7. Add 6 to both sides."],["y = ⅓x + ⅓","That slope is perpendicular, not parallel."],["y = −3x + 1","1 is the point's y‑value, not the y‑intercept."]],
+  ex:'Parallel → same slope, −3. 1 = −3(2) + b → b = 7. y = −3x + 7.'},
+ {id:"H3",s:"H",d:"hard",t:"mc",p:'Which line is perpendicular to <span class="m">2x + 5y = 10</span> and passes through <span class="m">(4, −3)</span>?',
+  opts:[["y = (5/2)x − 13",null],["y = −(2/5)x − 7/5","That line is parallel. Perpendicular needs the opposite reciprocal."],["y = (5/2)x + 7","−3 = 10 + b means b = −13. Subtract 10 from both sides."],["y = −(5/2)x + 7","Sign: the opposite reciprocal of −2/5 is +5/2."]],
+  ex:'Given line: 5y = −2x + 10 → slope −2/5. Perpendicular slope: 5/2. −3 = (5/2)(4) + b = 10 + b → b = −13.'},
+ {id:"H4",s:"H",d:"hard",t:"mc",p:'Are <span class="m">3x − 6y = 12</span> and <span class="m">y = −2x + 5</span> parallel, perpendicular, or neither?',
+  opts:[["Perpendicular",null],["Parallel","Parallel lines have equal slopes. Here they are ½ and −2."],["Neither","Multiply the slopes: ½ × (−2) = −1."],["The same line","They have different slopes, so they are different lines."]],
+  ex:'3x − 6y = 12 → −6y = −3x + 12 → y = ½x − 2, slope ½. The other slope is −2. ½ × (−2) = −1, so they are perpendicular.'},
+ {id:"H5",s:"H",d:"hard",t:"mc",w:1,p:'On a city map, a road runs through <span class="m">(0, 0)</span> and <span class="m">(6, 4)</span>. A bike path will cross the road at a right angle at <span class="m">(6, 4)</span>. Which equation describes the bike path?',
+  opts:[["y = −(3/2)x + 13",null],["y = (2/3)x","That's the road itself."],["y = −(3/2)x − 5","4 = −9 + b gives b = 13. Add 9."],["y = (3/2)x − 5","A right angle needs the opposite reciprocal, which is negative."]],
+  ex:'Road slope = 4 ÷ 6 = 2/3. Perpendicular slope = −3/2. 4 = −(3/2)(6) + b = −9 + b → b = 13.'},
+
+ {id:"R1",s:"R",d:"medium",t:"mc",p:'Solve <span class="m">−3|x − 2| + 5 = −7</span>.',
+  opts:[["x = 6 or x = −2",null],["x = 6 only","Absolute value equations usually have two answers. Also solve x − 2 = −4."],["No solution","Divide by −3 first: |x − 2| = 4, which is positive, so there are solutions."],["x = 10 or x = −6","Divide by −3, don't add or multiply: |x − 2| = 4, not 8."]],
+  ex:'Subtract 5: −3|x − 2| = −12. Divide by −3: |x − 2| = 4. So x − 2 = 4 or x − 2 = −4, which gives x = 6 or x = −2.'},
+ {id:"R2",s:"R",d:"hard",t:"mc",p:'Solve <span class="m">(5x − 1) ÷ (−3) ≥ 3</span>.',
+  opts:[["x ≤ −8/5",null],["x ≥ −8/5","Multiplying by −3 flips the sign. It must become ≤."],["x ≥ 2","Multiply by −3, not 3: 5x − 1 ≤ −9."],["x ≤ 8/5","5x ≤ −8, so x ≤ −8/5 (keep the negative)."]],
+  ex:'Multiply both sides by −3 and FLIP: 5x − 1 ≤ −9. Add 1: 5x ≤ −8. Divide by 5 (positive, no flip): x ≤ −8/5.'},
+ {id:"R3",s:"R",d:"hard",t:"mc",p:'Which is the correct way to write the solution of <span class="m">|2x + 1| > 7</span>?',
+  opts:[["x < −4 or x > 3",null],["−4 < x < 3","> means OR (outside the interval), not AND (between)."],["−4 > x > 3","An OR can't be chained like this; it says x is below −4 and above 3 at the same time."],["x > 3 only","Also solve 2x + 1 < −7."]],
+  ex:'2x + 1 > 7 → x > 3, OR 2x + 1 < −7 → x < −4. Write it as "x < −4 or x > 3".'}
+];
+
+// Guided walkthrough steps. n = typed number step (a = answer), c = choice step (o[0] is correct). h = hint after a miss.
+const STEPS = {
+ A1:[{n:"What is the change in y? (13 − 5)",a:8,h:"Subtract the y‑values: second y minus first y."},{n:"What is the change in x? (6 − 2)",a:4},{n:"Slope = change in y ÷ change in x. What is the slope?",a:2,h:"Divide your two answers: (change in y) ÷ (change in x)."}],
+ A2:[{n:"What is the change in y? (−2 − 4)",a:-6,h:"Start at −2 and go down 4 more."},{n:"What is the change in x? (5 − (−3))",a:8,h:"Subtracting a negative is the same as adding: 5 + 3."},{n:"Slope = (change in y) ÷ (change in x). Simplify it (fraction or decimal).",a:-0.75,s:"−6 ÷ 8 = −3/4",h:"Divide −6 by 8 and simplify."}],
+ A3:[{n:"What is the change in y between the points? (7 − (−1))",a:8,h:"Subtracting −1 is the same as adding 1."},{c:"The change in x is k − 3. Which equation says the slope equals 4?",o:["8 ÷ (k − 3) = 4","(k − 3) ÷ 8 = 4","8 × (k − 3) = 4"],h:"Slope is rise ÷ run, and the rise goes on top."},{n:"Multiply both sides by (k − 3): 8 = 4(k − 3). What does k − 3 equal?",a:2,h:"Divide 8 by 4."},{n:"So what is k?",a:5,h:"If k − 3 = 2, add 3 to both sides."}],
+ B1:[{c:"In y = mx + b, which letter is the slope?",o:["m","b","x"],h:"The slope is the number multiplied by x."},{n:"In y = −3x + 7, what number is multiplied by x? (include its sign)",a:-3},{n:"What number is b, the constant at the end?",a:7}],
+ B2:[{c:"A point with x = 0 sits on the y‑axis. What does (0, −4) tell you?",o:["The y‑intercept is −4 (b = −4)","The slope is −4","The x‑intercept is −4"],h:"Where does a line cross the y‑axis?"},{n:"Find the slope: (2 − (−4)) ÷ (2 − 0) = ?",a:3,h:"Top: 2 + 4. Bottom: 2."}],
+ B3:[{c:"Start with y = mx + b. What do you substitute?",o:["m = −½, x = 4, y = 1","m = −½, x = 1, y = 4","m = 4, x = −½, y = 1"],h:"In a point (x, y), x comes first."},{n:"What is −½ × 4?",a:-2},{n:"Now 1 = −2 + b. What is b?",a:3,h:"Add 2 to both sides."}],
+ C1:[{c:"Which amount is paid only once, at the start?",o:["The $25 sign‑up fee","The $15 per month"]},{c:"In y = mx + b, the one‑time starting amount is…",o:["b, the y‑intercept","m, the slope"],h:"The y‑intercept is the value when x = 0 (before any months pass)."},{c:"The amount that repeats every month is…",o:["m, the slope, so m = 15","b, so b = 15"],h:"The slope is the rate: how much y changes each time x goes up by 1."}],
+ C2:[{c:"Which equation gives the total bill y after h hours?",o:["y = 40h + 65","y = 65h + 40","y = 105h"],h:"$65 is paid once. $40 is paid each hour."},{n:"Set y = 225: 225 = 40h + 65. Subtract 65 from both sides. What does 40h equal?",a:160},{n:"Divide by 40. h = ?",a:4}],
+ C3:[{n:"How many hours pass from 1:00 pm to 4:00 pm?",a:3},{n:"How much did the battery change in that time? (68 − 92)",a:-24,h:"It went down, so the change is negative."},{n:"Rate = change ÷ hours. How many percent per hour?",a:-8},{n:"How many hours pass from 1:00 pm to 7:30 pm?",a:6.5,h:"Half an hour is 0.5."},{n:"Start at 92 and add (rate × hours): 92 + (−8)(6.5) = ?",a:40,h:"First find 8 × 6.5, then subtract it from 92."}],
+ D1:[{c:"Point‑slope form is…",o:["y − y₁ = m(x − x₁)","y = mx + b","Ax + By = C"]},{c:"The point is (3, −2), so y₁ = −2. What is y − y₁?",o:["y − (−2), which is y + 2","y − 2","y − 3"],h:"Subtracting a negative turns into adding."},{c:"x₁ = 3. What is x − x₁?",o:["x − 3","x + 3","x + 2"]}],
+ D2:[{n:"Find the slope: (−4 − 4) ÷ (3 − (−1)) = ?",a:-2,h:"Top: −8. Bottom: 3 + 1 = 4."},{c:"Use the point (−1, 4). What is x − x₁?",o:["x − (−1), which is x + 1","x − 1","x − 4"]},{c:"What is y − y₁?",o:["y − 4","y + 4","y + 1"]}],
+ D3:[{c:"To get y alone, what is the first step?",o:["Distribute −⅔ to both x and 3","Add 6 inside the parentheses","Multiply only the x by −⅔"],h:"The −⅔ multiplies everything in the parentheses."},{n:"What is −⅔ × 3?",a:-2},{n:"Now y − 6 = −⅔x − 2. Add 6 to both sides. The constant becomes −2 + 6 = ?",a:4}],
+ E1:[{c:"Let x = hours and y = height. Which two points do you know?",o:["(2, 18) and (5, 12)","(18, 2) and (12, 5)","(2, 5) and (18, 12)"],h:"Each point is (hours, height)."},{n:"Slope = (12 − 18) ÷ (5 − 2) = ? cm per hour",a:-2},{c:"\"Before it was lit\" means which x‑value?",o:["x = 0","x = 2","x = 18"],h:"x counts hours since it was lit."},{n:"Use y − 18 = −2(x − 2) and plug in x = 0. What is y?",a:22,h:"−2(0 − 2) = −2 × −2 = 4. Then y − 18 = 4."}],
+ E2:[{c:"Let x = miles and y = cost. Which points do you know?",o:["(3, 11.50) and (8, 24.00)","(11.50, 3) and (24.00, 8)","(3, 8) and (11.50, 24.00)"]},{n:"Slope = (24 − 11.50) ÷ (8 − 3) = ? dollars per mile",a:2.5},{n:"Going from 3 miles to 15 miles adds how many miles?",a:12},{n:"Cost = 11.50 + 2.50 × 12 = ?",a:41.5,h:"Multiply first: 2.50 × 12."}],
+ F1:[{c:"To find the x‑intercept, which variable do you set to 0?",o:["y","x"],h:"The x‑intercept is on the x‑axis, where the height (y) is 0."},{n:"With y = 0: 3x = 24. What is x?",a:8},{n:"Now the y‑intercept. With x = 0: 4y = 24. What is y?",a:6}],
+ F2:[{c:"How do you clear the fraction ⅔?",o:["Multiply every term by 3","Multiply only the x term by 3","Divide every term by 3"],h:"Whatever you do to one term, do to every term."},{c:"After multiplying everything by 3, you get…",o:["3y = 2x − 15","3y = 2x − 5","y = 2x − 15"],h:"−5 × 3 = −15, and the y gets multiplied too."},{c:"Move 2x to the left side. Which is correct?",o:["−2x + 3y = −15","2x + 3y = −15","−2x + 3y = 15"],h:"Subtract 2x from both sides; the −15 stays on the right."}],
+ F3:[{c:"Get y alone. First subtract 5x from both sides:",o:["−2y = −5x + 8","−2y = 5x + 8","2y = −5x + 8"]},{c:"Now divide every term by −2:",o:["y = (5/2)x − 4","y = −(5/2)x + 4","y = (5/2)x + 4"],h:"−5 ÷ −2 is positive. 8 ÷ −2 is negative."}],
+ G1:[{c:"Let x = adult tickets and y = student tickets. Which equation fits?",o:["12x + 8y = 960","8x + 12y = 960","12x + 8y = 50"],h:"Price × number of tickets, added together, equals the total money."},{n:"Plug in x = 50. What is 12 × 50?",a:600},{n:"600 + 8y = 960. What does 8y equal?",a:360},{n:"So y = ?",a:45}],
+ G2:[{c:"The y‑intercept is where x = 0. What does x = 0 mean here?",o:["No adult tickets were sold","No student tickets were sold","No money was made"]},{n:"With x = 0: 8y = 960. What is y?",a:120},{n:"Now the x‑intercept. With y = 0: 12x = 960. What is x?",a:80},{c:"So which point is the y‑intercept?",o:["(0, 120)","(120, 0)","(0, 80)"],h:"Points are written (x, y), and here x = 0."}],
+ H1:[{c:"Slopes of perpendicular lines are…",o:["opposite reciprocals: flip the fraction AND change the sign","equal","just the reciprocal (flip only)","just the opposite (change sign only)"]},{c:"Write the slope 4 as a fraction:",o:["4/1","1/4","−4/1"]}],
+ H2:[{c:"Parallel lines have…",o:["the same slope","opposite reciprocal slopes","the same y‑intercept"]},{n:"So m = −3. Substitute (2, 1) into y = −3x + b. What is −3 × 2?",a:-6},{n:"Now 1 = −6 + b. What is b?",a:7,h:"Add 6 to both sides."}],
+ H3:[{c:"First find the slope of 2x + 5y = 10. Solve for y:",o:["y = −(2/5)x + 2","y = (2/5)x + 2","y = −2x + 10"],h:"Subtract 2x, then divide every term by 5."},{c:"The perpendicular slope is the opposite reciprocal of −2/5:",o:["5/2","−5/2","2/5"]},{n:"Substitute the point (4, −3). What is (5/2) × 4?",a:10},{n:"Now −3 = 10 + b. What is b?",a:-13,h:"Subtract 10 from both sides."}],
+ H4:[{c:"Rewrite 3x − 6y = 12 in slope‑intercept form:",o:["y = ½x − 2","y = −½x + 2","y = 2x − 4"],h:"Subtract 3x, then divide every term by −6."},{n:"What is the slope of that first line? (fraction or decimal)",a:0.5,s:"½"},{n:"Multiply the two slopes: ½ × (−2) = ?",a:-1}],
+ H5:[{n:"What is the slope of the road through (0, 0) and (6, 4)? (fraction)",a:2/3,s:"4 ÷ 6 = 2/3",h:"Rise ÷ run = 4 ÷ 6. Simplify."},{c:"A right angle means the path is perpendicular to the road. Its slope is…",o:["−3/2","3/2","2/3"]},{n:"Substitute (6, 4). What is −(3/2) × 6?",a:-9},{n:"Now 4 = −9 + b. What is b?",a:13}],
+ R1:[{c:"Goal: get the absolute value by itself. What do you do first?",o:["Subtract 5 from both sides","Divide by −3 first","Split into two equations right away"],h:"Undo the + 5 first, then the × (−3). Split only when the |…| is alone."},{n:"Now −3|x − 2| = −12. Divide both sides by −3. |x − 2| = ?",a:4},{c:"|x − 2| = 4 splits into…",o:["x − 2 = 4  or  x − 2 = −4","x − 2 = 4 only","|x| = 6"]},{n:"Solve x − 2 = 4. x = ?",a:6},{n:"Solve x − 2 = −4. x = ?",a:-2}],
+ R2:[{c:"Multiply both sides by −3 to clear the ÷ (−3). What happens to ≥?",o:["It flips to ≤","It stays ≥","It becomes ="],h:"Multiplying or dividing by a negative flips the sign."},{n:"The right side becomes 3 × (−3). What is it?",a:-9},{n:"Now 5x − 1 ≤ −9. Add 1 to both sides. 5x ≤ ?",a:-8},{c:"Divide by 5. Does the sign flip again?",o:["No, 5 is positive","Yes, you always flip when dividing"]}],
+ R3:[{c:"|2x + 1| > 7 means 2x + 1 is more than 7 away from 0. So…",o:["2x + 1 > 7  OR  2x + 1 < −7","−7 < 2x + 1 < 7","2x + 1 > 7 only"],h:"Greater than → OR (outside). Less than → AND (between)."},{n:"Solve 2x + 1 > 7. x > ?",a:3},{n:"Solve 2x + 1 < −7. x < ?",a:-4},{c:"How do you write an OR answer?",o:["Two separate pieces joined by \"or\"","One chain, like −4 > x > 3"]}]
+};
+
+const state = {}; // id -> {status:'first'|'helped'|'missed', chosen, stepMisses}
+const TOL = 0.006;
+function parseNum(v){
+  v = String(v).replace(/[−–]/g,"-").replace(/[\s$%,]/g,"").replace(/cm|hours?|hrs?/gi,"");
+  if(!v) return NaN;
+  const f = v.match(/^(-?\d*\.?\d+)\/(-?\d*\.?\d+)$/);
+  if(f) return parseFloat(f[1])/parseFloat(f[2]);
+  return /^-?\d*\.?\d+$/.test(v) ? parseFloat(v) : NaN;
+}
+const fmt = x => String(+x.toFixed(4)).replace("-","−");
+function el(tag, attrs={}, html){const e=document.createElement(tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(html!=null)e.innerHTML=html;return e}
+function shuffled(n,key){const order=[...Array(n).keys()];let seed=[...key].reduce((a,c)=>(a*31+c.charCodeAt(0))%233280,7);
+  for(let i=n-1;i>0;i--){seed=(seed*9301+49297)%233280;const j=Math.floor(seed/233280*(i+1));[order[i],order[j]]=[order[j],order[i]]}return order}
+
+function render(){
+  const root = document.getElementById("quiz"); root.innerHTML="";
+  let n=0, cur=null;
+  Q.forEach(q=>{
+    if(q.s!==cur){cur=q.s;const sec=el("section",{class:"skill"});sec.append(el("h2",{},SKILLS[q.s].name),el("p",{class:"lesson"},SKILLS[q.s].lesson));root.append(sec)}
+    n++;
+    const card = el("article",{class:"q",id:"q-"+q.id});
+    const head = el("div",{class:"qhead"});
+    head.append(el("span",{class:"qnum"},"Q"+n),el("span",{class:"pill "+q.d},q.d));
+    if(q.w) head.append(el("span",{class:"pill word"},"word problem"));
+    card.append(head, el("p",{class:"prompt"},q.p));
+    const fb = el("div",{class:"fb",hidden:""});
+    const coach = el("div",{class:"coach",hidden:""});
+    const btn = el("button",{type:"button"},"Check");
+    const ctx = {q,card,fb,btn,coach,tries:0,stepMisses:0};
+    if(q.t==="mc"){
+      const box = el("div",{class:"opts",role:"radiogroup"});
+      shuffled(q.opts.length,q.id).forEach(i=>{const lab=el("label",{"data-i":i});const r=el("input",{type:"radio",name:"r-"+q.id,value:i,id:"r-"+q.id+"-"+i});lab.append(r,el("span",{},q.opts[i][0]));box.append(lab)});
+      ctx.box=box;
+      btn.onclick=()=>{const c=box.querySelector("input:checked:not(:disabled)");if(!c){say(fb,"no","Pick an answer first.");return}check(ctx,+c.value)};
+      const row=el("div",{class:"row"});row.append(btn);
+      card.append(box,row,fb,coach);
+    } else {
+      const row = el("div",{class:"row"});
+      const inp = el("input",{type:"text",id:"in-"+q.id,inputmode:"decimal",autocomplete:"off","aria-label":"Your answer"});
+      ctx.inp=inp;
+      btn.onclick=()=>{const v=parseNum(inp.value);if(isNaN(v)){say(fb,"no","Type a number or a fraction like 3/4.");return}check(ctx,v)};
+      inp.addEventListener("keydown",e=>{if(e.key==="Enter")btn.click()});
+      row.append(inp,btn); card.append(row,fb,coach);
+    }
+    root.append(card);
+  });
+  update();
+}
+function say(fb,kind,html){fb.hidden=false;fb.className="fb "+kind;fb.innerHTML=html}
+
+function check(ctx,val){
+  const {q,card,fb,btn}=ctx; ctx.tries++;
+  const ok = q.t==="mc" ? q.opts[val][1]===null : Math.abs(val-q.ans)<TOL;
+  const chosen = q.t==="mc" ? q.opts[val][0] : ctx.inp.value;
+  if(ok){
+    lock(ctx,true);
+    const status = ctx.tries===1 ? "first" : "helped";
+    state[q.id]={status,chosen,stepMisses:ctx.stepMisses};
+    card.className="q right";
+    say(fb,"ok",(status==="first"?"<b>Correct!</b>":"<b>You got it!</b> You worked it out step by step. ")+q.ex);
+    update(); return;
+  }
+  if(ctx.tries===1){
+    // first miss: mark the wrong pick, lock the question, start the walkthrough
+    if(q.t==="mc"){const l=ctx.box.querySelector(`label[data-i="${val}"]`);l.classList.add("chosen-wrong");l.querySelector("input").disabled=true;l.querySelector("input").checked=false}
+    ctx.firstChosen=chosen;
+    lock(ctx,false);
+    card.className="q coaching";
+    say(fb,"no","<b>Not quite.</b> Let's work through it one step at a time. Answer each step below.");
+    startCoach(ctx); return;
+  }
+  // missed again after the walkthrough: show the answer and the full solution
+  lock(ctx,true);
+  if(q.t==="mc"){ctx.box.querySelectorAll("label").forEach(l=>{if(q.opts[+l.dataset.i][1]===null)l.classList.add("correct")});}
+  state[q.id]={status:"missed",chosen:ctx.firstChosen,second:chosen,stepMisses:ctx.stepMisses};
+  card.className="q wrong";
+  const note = q.t==="mc" && q.opts[val][1] ? q.opts[val][1]+" " : "";
+  say(fb,"no","<b>Here's the full solution.</b> "+note+q.ex+"<br><i>Mark this one to ask about.</i>");
+  update();
+}
+function lock(ctx,on){
+  ctx.btn.disabled=on;
+  if(ctx.inp){ctx.inp.disabled=on}
+  if(ctx.box){ctx.box.querySelectorAll("input").forEach(i=>{if(!i.closest("label").classList.contains("chosen-wrong"))i.disabled=on})}
+}
+
+function startCoach(ctx){
+  const steps = STEPS[ctx.q.id]; const coach=ctx.coach;
+  coach.hidden=false; coach.innerHTML="";
+  coach.append(el("div",{class:"coach-title"},"Walk through it"));
+  let i=0;
+  const next=()=>{
+    if(i>=steps.length){
+      const done=el("div",{class:"step-done"},"<b>Nice work.</b> Now use your steps to answer the original question above"+(ctx.q.t==="mc"?" (pick a new choice)":"")+" and press Check.");
+      coach.append(done); lock(ctx,false); ctx.fb.hidden=true;
+      if(ctx.inp){ctx.inp.value="";ctx.inp.focus()}
+      return;
+    }
+    coach.append(buildStep(ctx,steps[i],i,()=>{i++;next()}));
+  };
+  next();
+}
+function buildStep(ctx,st,idx,onDone){
+  const wrap=el("div",{class:"step"});
+  wrap.append(el("div",{class:"step-label"},"Step "+(idx+1)));
+  const isNum = "n" in st;
+  wrap.append(el("p",{class:"step-q"},isNum?st.n:st.c));
+  const fb=el("div",{class:"step-fb",hidden:""});
+  const btn=el("button",{type:"button",class:"small"},"Check step");
+  let misses=0, box, inp;
+  const finish=(right)=>{btn.disabled=true;if(inp)inp.disabled=true;if(box)box.querySelectorAll("input").forEach(x=>x.disabled=true);
+    wrap.classList.add(right?"step-ok":"step-shown");onDone()};
+  const miss=()=>{misses++;ctx.stepMisses++;
+    if(misses>=2){
+      const shown = isNum ? (st.s||fmt(st.a)) : st.o[0];
+      fb.hidden=false;fb.className="step-fb no";fb.innerHTML="This step is: <b>"+shown+"</b>. Look at how it works, then keep going.";
+      if(box)box.querySelectorAll("label").forEach(l=>{if(+l.dataset.i===0)l.classList.add("correct")});
+      finish(false);
+    } else {fb.hidden=false;fb.className="step-fb no";fb.innerHTML="<b>Try again.</b> "+(st.h||"Check your arithmetic, especially the signs.")}
+  };
+  if(isNum){
+    const row=el("div",{class:"row"});
+    inp=el("input",{type:"text",inputmode:"decimal",autocomplete:"off","aria-label":"Step answer",id:"st-"+ctx.q.id+"-"+idx});
+    btn.onclick=()=>{const v=parseNum(inp.value);if(isNaN(v)){fb.hidden=false;fb.className="step-fb no";fb.textContent="Type a number or a fraction.";return}
+      if(Math.abs(v-st.a)<TOL){fb.hidden=false;fb.className="step-fb ok";fb.textContent="✓ Right.";finish(true)}else miss()};
+    inp.addEventListener("keydown",e=>{if(e.key==="Enter")btn.click()});
+    row.append(inp,btn);wrap.append(row);
+    setTimeout(()=>inp.focus({preventScroll:true}),0);
+  } else {
+    box=el("div",{class:"opts"});
+    shuffled(st.o.length,ctx.q.id+idx).forEach(k=>{const lab=el("label",{"data-i":k});lab.append(el("input",{type:"radio",name:"s-"+ctx.q.id+"-"+idx,value:k,id:"s-"+ctx.q.id+"-"+idx+"-"+k}),el("span",{},st.o[k]));box.append(lab)});
+    btn.onclick=()=>{const c=box.querySelector("input:checked:not(:disabled)");if(!c){fb.hidden=false;fb.className="step-fb no";fb.textContent="Pick one first.";return}
+      if(+c.value===0){c.closest("label").classList.add("correct");fb.hidden=false;fb.className="step-fb ok";fb.textContent="✓ Right.";finish(true)}
+      else{c.closest("label").classList.add("chosen-wrong");c.disabled=true;c.checked=false;miss()}};
+    const row=el("div",{class:"row"});row.append(btn);
+    wrap.append(box,row);
+  }
+  wrap.append(fb);
+  return wrap;
+}
+
+function update(){
+  const vals=Object.values(state), done=vals.length;
+  const first=vals.filter(s=>s.status==="first").length, helped=vals.filter(s=>s.status==="helped").length;
+  document.getElementById("nums").textContent=`${done} / ${Q.length} done · ${first} right first try · ${helped} with help`;
+  document.getElementById("fill").style.width=(done/Q.length*100)+"%";
+  if(done===Q.length) finish();
+}
+
+let saved=false;
+async function finish(){
+  const res=document.getElementById("results"); res.hidden=false;
+  const t={};Q.forEach(q=>{t[q.s]=t[q.s]||{first:0,helped:0,missed:0,total:0};t[q.s].total++;t[q.s][state[q.id].status]++});
+  const tb=document.getElementById("rtbody"); tb.innerHTML=""; const gaps=[];
+  for(const k in t){const r=t[k];
+    const [cls,lab]= r.first===r.total?["status-m","Got it"]:r.missed===0?["status-p","Getting there"]:["status-n","Practice more"];
+    if(r.first<r.total) gaps.push(SKILLS[k].name);
+    const tr=el("tr");tr.append(el("td",{},SKILLS[k].name),el("td",{class:"n"},`${r.first}/${r.total}`),el("td",{class:"n"},String(r.helped)),el("td",{class:"n"},String(r.missed)),el("td",{class:cls},lab));tb.append(tr)}
+  const vals=Object.values(state), first=vals.filter(s=>s.status==="first").length, helped=vals.filter(s=>s.status==="helped").length, missed=vals.filter(s=>s.status==="missed").length;
+  document.getElementById("summary").innerHTML=`<b>${first} of ${Q.length}</b> right on the first try, <b>${helped}</b> solved with the walkthrough, <b>${missed}</b> still missed. `+(gaps.length?"Skills to practice again: "+gaps.join(", ")+".":"Every skill is solid.");
+  res.scrollIntoView({behavior:"smooth",block:"start"});
+  if(saved) return; saved=true;
+  const msg=document.getElementById("saveMsg");
+  try{
+    const db = window.claude?.use ? await window.claude.use("db") : null;
+    if(!db){msg.textContent="Results weren't saved (saving isn't available in this view).";return}
+    const perSkill={};for(const k in t)perSkill[k]={name:SKILLS[k].name,...t[k]};
+    const notFirst=Q.filter(q=>state[q.id].status!=="first").map(q=>({id:q.id,skill:SKILLS[q.s].name,status:state[q.id].status,firstAnswer:String(state[q.id].chosen),stepMisses:state[q.id].stepMisses}));
+    await db.collection("attempts").add({finishedAt:new Date().toISOString(),firstTry:first,withHelp:helped,missed,total:Q.length,perSkill,notFirstTry:notFirst});
+    msg.textContent="Results saved.";
+  }catch(e){msg.textContent="Results couldn't be saved this time.";}
+}
+
+document.getElementById("restart").onclick=()=>{for(const k in state)delete state[k];saved=false;document.getElementById("results").hidden=true;render();window.scrollTo({top:0})};
+render();
+</script>
+
+</body></html>

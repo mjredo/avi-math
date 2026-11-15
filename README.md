@@ -1,10 +1,25 @@
 # Aviaana's Math Lab
 
-Practice site for enVision Algebra 1 (class "7th Algebra Yellow"). It runs as a single page, `index.html`, on GitHub Pages.
+Practice site for enVision Algebra 1 (2018), class "7th Algebra Yellow". It's live at https://mjredo.github.io/avi-math/
 
-## Progress sync
-`worker/worker.js` is a Cloudflare Worker that stores progress in a KV namespace, so her answers carry over to any browser.
-1. In Cloudflare, go to Workers & Pages → Create → Worker. Name it `avi-math-sync`, deploy it, then replace its code with `worker/worker.js` and deploy again.
-2. Go to Storage & Databases → KV → Create a namespace called `avi-math`.
-3. In the Worker, go to Settings → Bindings → Add → KV namespace. Set the variable name to `AVLAB` and pick the namespace `avi-math`.
-4. The Worker is live at https://avi-math-sync.mrnarang.workers.dev (KV namespace `av-math`, binding `AVLAB`). This URL is set in `SYNC_URL_DEFAULT` in `index.html`.
+## What's here
+| Path | What it is |
+|---|---|
+| `index.html` | The site. Built by `src/build.py`. Don't edit it by hand. |
+| `src/` | Sources: question generators, course and test layouts, the review library, sync |
+| `src/base/math-lab-base.html` | The Math Lab page and engine (from Araaya's lab) that the build starts from |
+| `library/` | Her history of results and the catalog of tests (see `library/README.md`) |
+| `archive/` | The original Topic 1 and Topic 2 practice pages, kept for reference |
+| `worker/worker.js` | Cloudflare Worker that syncs progress and school uploads |
+
+## Build
+```
+python3 src/build.py      # writes index.html
+node src/verify2.js       # checks every generator: 4 distinct choices, valid steps
+```
+
+## Sync
+The Worker is live at https://avi-math-sync.mrnarang.workers.dev. It uses KV namespace `av-math`, bound as `AVLAB`.
+- GET `/c/progress`, `/c/rounds`, `/c/school` return `[{id, data}]`
+- PUT and DELETE `/d/<collection>/<id>` (only from the site)
+- PUT, GET and DELETE `/f/<id>` for photos and PDFs of school papers

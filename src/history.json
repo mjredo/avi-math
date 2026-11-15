@@ -1,0 +1,676 @@
+{
+ "events": [
+  {
+   "d": "2026-09-29",
+   "src": "Topic 1 worksheet 9/29 (scanned)",
+   "skill": "t2_absEq",
+   "res": "missed",
+   "q": "Isolating an absolute value with a coefficient (1-7 #11, #12)",
+   "given": "Added or multiplied instead of dividing; gave only one ± answer"
+  },
+  {
+   "d": "2026-09-29",
+   "src": "Topic 1 worksheet 9/29 (scanned)",
+   "skill": "t2_flip",
+   "res": "missed",
+   "q": "(7x − 3) ÷ (−4) < 6",
+   "given": "Didn't flip at ×(−4), flipped at ÷7 (errors cancelled)"
+  },
+  {
+   "d": "2026-09-29",
+   "src": "Topic 1 worksheet 9/29 (scanned)",
+   "skill": "t1_compound",
+   "res": "missed",
+   "q": "Compound OR inequality (1-6)",
+   "given": "Wrote OR as a chain: −5 ≥ x ≥ 5; dropped a negative sign in 1-6 #5"
+  },
+  {
+   "d": "2026-09-29",
+   "src": "Topic 1 worksheet 9/29 (scanned)",
+   "skill": "t1_word",
+   "res": "missed",
+   "q": "Inequality word problems",
+   "given": "Used two variables for the same quantity; small arithmetic slip"
+  },
+  {
+   "d": "2026-09-29",
+   "src": "Topic 1 worksheet 9/29 (scanned)",
+   "skill": "t1_multi",
+   "res": "first"
+  },
+  {
+   "d": "2026-09-29",
+   "src": "Topic 1 worksheet 9/29 (scanned)",
+   "skill": "t1_multi",
+   "res": "first"
+  },
+  {
+   "d": "2026-09-29",
+   "src": "Topic 1 worksheet 9/29 (scanned)",
+   "skill": "t2_absIneq",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_slope",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_slope",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_slope",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_siPoint",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_siPoint",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_siWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_siWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_psWrite",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_psWrite",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_stdConvert",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_stdConvert",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_stdWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_perpSlope",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_perpLine",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_perpClassify",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_absEq",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_flip",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_siPoint",
+   "res": "helped",
+   "given": "y = −½x + 3"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_siWord",
+   "res": "helped",
+   "given": "4"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_psWrite",
+   "res": "missed",
+   "given": "y − 4 = −2(x − 1) for the point (−1, 4)"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_psWord",
+   "res": "missed",
+   "given": "20 cm (candle problem; answer 22)"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_psWord",
+   "res": "helped",
+   "given": "41.50"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_stdConvert",
+   "res": "helped",
+   "given": "2x − 3y = 15"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_stdWord",
+   "res": "helped",
+   "given": "(0, 120) meaning"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_perpSlope",
+   "res": "missed",
+   "given": "4 (same slope; answer −1/4)"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_perpLine",
+   "res": "helped",
+   "given": "y = (5/2)x − 13"
+  },
+  {
+   "d": "2026-10-25",
+   "src": "Topic 2 practice set 10/25",
+   "skill": "t2_absIneq",
+   "res": "helped",
+   "given": "x < −4 or x > 3"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_stdWord",
+   "res": "missed",
+   "q": "The snack stand's sales are modeled by 15x + 5y = 195, where x = cases of water and y = bags of ice. Which statement is true?",
+   "given": "(0, 13) means: 13 cases of water were sold and no bags of ice.",
+   "correct": "(13, 0) means: if no bags of ice were sold, 13 cases of water were sold."
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_psWord",
+   "res": "missed",
+   "q": "A 3-mile taxi ride costs $7.00 and a 9-mile ride costs $16.00. What does a 16-mile ride cost?",
+   "given": "1.5",
+   "correct": "$26.50"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_perpLine",
+   "res": "missed",
+   "q": "Which line is perpendicular to 2x + 3y = −6 and passes through (−4, 6)?",
+   "given": "y = −(3/2)x",
+   "correct": "y = (3/2)x + 12"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_absIneq",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_flip",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_perpSlope",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_perpSlope",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_psWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_psWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_psWrite",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_psWrite",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_psWrite",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_siPoint",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_siPoint",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_siWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_siWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_siWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_stdConvert",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_stdConvert",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-27",
+   "src": "Topic 2 error-focus test (17/20)",
+   "skill": "t2_stdConvert",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_stdWord",
+   "res": "missed",
+   "q": "The snack stand's sales are modeled by 12x + 6y = 72, where x = cases of water and y = bags of ice. Which statement is true?",
+   "given": "(12, 0) means: 12 cases of water were sold and no bags of ice.",
+   "correct": "(0, 12) means: if no cases of water were sold, 12 bags of ice were sold."
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_perpClassify",
+   "res": "missed",
+   "q": "Are 5x − 2y = −8 and y = (2/5)x − 5 parallel, perpendicular, or neither?",
+   "given": "Parallel",
+   "correct": "Neither"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_absEq",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_absIneq",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_flip",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_perpLine",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_perpLine",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_perpSlope",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_perpWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_psConvert",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_psWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_psWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_psWrite",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_siPoint",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_siWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_slope",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_stdConvert",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_stdInt",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_stdSlope",
+   "res": "first"
+  },
+  {
+   "d": "2026-10-28",
+   "src": "Topic 2 mastery test (18/20)",
+   "skill": "t2_stdWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_siPoint",
+   "res": "missed",
+   "q": "Write the equation of the line with slope 2/3 through (3, 1) in slope-intercept form.",
+   "given": "y = (2/3)x + 1",
+   "correct": "y = (2/3)x − 1"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_graphToEq",
+   "res": "missed",
+   "q": "Which equation is shown in the graph?",
+   "given": "y = 3x + 2",
+   "correct": "y = −3x + 2"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_stdInt",
+   "res": "missed",
+   "q": "What are the intercepts of 4x − 5y = 20?",
+   "given": "x-intercept −4, y-intercept 5",
+   "correct": "x-intercept 5, y-intercept −4"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_stdWord",
+   "res": "missed",
+   "q": "The pizza shop's sales are modeled by 15x + 6y = 330, where x = large pizzas and y = small pizzas. Which statement is true?",
+   "given": "(0, 55) means: 55 large pizzas were sold.",
+   "correct": "(0, 55) means: if no large pizzas were sold, 55 small pizzas were sold."
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_perpWord",
+   "res": "missed",
+   "q": "A pipe runs through (0, 0) and (6, −3). A drain line meets it at a right angle at (6, −3). Which equation describes the drain line?",
+   "given": "y = −(1/2)x",
+   "correct": "y = 2x − 15"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_eqToGraph",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_horizVert",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_interceptError",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_matchLine",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_perpClassify",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_perpLine",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_perpSlope",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_psConvert",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_psWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_psWrite",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_siWord",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_slope",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_stdConvert",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_stdSlope",
+   "res": "first"
+  },
+  {
+   "d": "2026-11-01",
+   "src": "Unit 2 quiz practice test 1 (15/20)",
+   "skill": "t2_stdTwoPoints",
+   "res": "first"
+  }
+ ],
+ "tests": [
+  {
+   "d": "2026-09-29",
+   "name": "Topic 1 Inequality Check (1-5 to 1-7)",
+   "score": null,
+   "total": 21,
+   "note": "Worksheet weak spots recorded from the scan; online results weren't saved.",
+   "link": "archive/topic1-inequality-check.html",
+   "orig": "https://claude.ai/artifact/CiusYKYHg9dJgzkdqCCDFQ"
+  },
+  {
+   "d": "2026-10-25",
+   "name": "Topic 2 practice set",
+   "score": 17,
+   "total": 27,
+   "note": "17 first try, 7 with the walkthrough, 3 still missed",
+   "link": "archive/topic2-practice-set.html",
+   "orig": "https://claude.ai/artifact/BRtxMjuanqcgR6fmm4QRxC"
+  },
+  {
+   "d": "2026-10-27",
+   "name": "Topic 2 error-focus test",
+   "score": 17,
+   "total": 20,
+   "missed": [
+    "t2_stdWord",
+    "t2_psWord",
+    "t2_perpLine"
+   ],
+   "link": "archive/topic2-test-series.html",
+   "orig": "https://claude.ai/artifact/DCj1iGBPPWgYazBVaDgdPT"
+  },
+  {
+   "d": "2026-10-28",
+   "name": "Topic 2 mastery test",
+   "score": 18,
+   "total": 20,
+   "missed": [
+    "t2_stdWord",
+    "t2_perpClassify"
+   ],
+   "link": "archive/topic2-test-series.html",
+   "orig": "https://claude.ai/artifact/DCj1iGBPPWgYazBVaDgdPT"
+  },
+  {
+   "d": "2026-11-01",
+   "name": "Unit 2 quiz practice test 1",
+   "score": 15,
+   "total": 20,
+   "missed": [
+    "t2_siPoint",
+    "t2_graphToEq",
+    "t2_stdInt",
+    "t2_stdWord",
+    "t2_perpWord"
+   ],
+   "link": "archive/topic2-test-series.html",
+   "orig": "https://claude.ai/artifact/DCj1iGBPPWgYazBVaDgdPT"
+  }
+ ]
+}

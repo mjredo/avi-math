@@ -1,0 +1,775 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Aviaana's Inequality Check</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=STIX+Two+Text:ital,wght@0,500;1,500&display=swap">
+<style>
+/* Layout: one centered work column on graph paper; each question is a single "problem card" with the answer area directly under it. */
+:root {
+  --bg: #F4F7FB; --grid: #E3E9F3; --paper: #FFFFFF; --ink: #1B2340; --muted: #5B6582; --line: #D6DDEA;
+  --accent: #3553D1; --accent-ink: #FFFFFF; --accent-soft: #E7ECFF; --hi: #FFE27A;
+  --good: #16794D; --good-soft: #E2F4EA; --bad: #B63B30; --bad-soft: #FBE7E4; --warn: #9A6200; --warn-soft: #FFF1D6;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-math: "STIX Two Text", "Cambria Math", "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0F1320; --grid: #1A2031; --paper: #171D2D; --ink: #E4E9F6; --muted: #9AA4C0; --line: #2A3249;
+  --accent: #8EA4FF; --accent-ink: #0F1320; --accent-soft: #232C4A; --hi: #6B5A14;
+  --good: #5FD39B; --good-soft: #15301F; --bad: #FF8F84; --bad-soft: #3A1C1A; --warn: #F2C063; --warn-soft: #33290F; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0F1320; --grid: #1A2031; --paper: #171D2D; --ink: #E4E9F6; --muted: #9AA4C0; --line: #2A3249;
+  --accent: #8EA4FF; --accent-ink: #0F1320; --accent-soft: #232C4A; --hi: #6B5A14;
+  --good: #5FD39B; --good-soft: #15301F; --bad: #FF8F84; --bad-soft: #3A1C1A; --warn: #F2C063; --warn-soft: #33290F; color-scheme: dark; }
+* { box-sizing: border-box; }
+body {
+  background-color: var(--bg); color: var(--ink); font: 17px/1.55 var(--f-body);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px; padding-inline: 16px; padding-block: 28px 64px;
+}
+.wrap { max-width: 760px; margin: 0 auto; display: grid; gap: 20px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(30px, 6vw, 44px); font-weight: 800; letter-spacing: -0.01em; }
+h2 { font-size: 24px; font-weight: 800; }
+h3 { font-size: 18px; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: grid; gap: 16px; min-width: 0; }
+.muted { color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+button { font: inherit; cursor: pointer; }
+.btn { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 10px; padding: 12px 20px; font-weight: 700; font-size: 17px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.ghost { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+.btn:focus-visible, .opt:focus-visible, .opbtn:focus-visible, input:focus-visible { outline: 3px solid var(--hi); outline-offset: 2px; }
+.math, .opt .lab { font-family: var(--f-math); font-weight: 500; }
+.math i, .lab i, .steps i, .ans i { font-family: var(--f-math); font-style: italic; }
+.fr { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: .82em; line-height: 1.1; margin: 0 2px; }
+.fr > span:first-child { border-bottom: 1.5px solid currentColor; padding: 0 3px; }
+.fr > span:last-child { padding: 0 3px; }
+b.or { font-family: var(--f-body); font-style: normal; font-weight: 700; font-size: .78em; padding: 0 4px; color: var(--accent); }
+
+/* skill list on home */
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+.skill { display: flex; gap: 10px; align-items: baseline; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.ch { font-size: 12px; font-weight: 700; color: var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 1px 7px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* question */
+.qtop { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: center; }
+.bar { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+.lvl { font-size: 13px; font-weight: 700; border-radius: 99px; padding: 2px 10px; }
+.lvl.easy { background: var(--good-soft); color: var(--good); }
+.lvl.medium { background: var(--warn-soft); color: var(--warn); }
+.lvl.hard { background: var(--bad-soft); color: var(--bad); }
+.prompt { font-size: clamp(24px, 5vw, 32px); overflow-x: auto; padding: 4px 0; }
+.prompt.text { font-family: var(--f-body); font-size: 19px; line-height: 1.6; }
+.nlwrap { overflow-x: auto; }
+svg.nl { width: 100%; max-width: 560px; height: auto; display: block; font-family: var(--f-body); }
+.opts { display: grid; gap: 10px; }
+.opt { display: flex; gap: 14px; align-items: center; text-align: left; width: 100%; padding: 12px 14px; background: var(--paper); color: var(--ink); border: 1.5px solid var(--line); border-radius: 10px; font-size: 20px; }
+.opt .key { font: 700 14px var(--f-body); width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); flex: none; }
+.opt[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.opt.right { border-color: var(--good); background: var(--good-soft); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-soft); }
+.ineq { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 24px; }
+.ops { display: flex; gap: 6px; }
+.opbtn { width: 48px; height: 48px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); font: 500 24px var(--f-math); }
+.opbtn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+input.val { font: 500 22px var(--f-math); width: 150px; max-width: 100%; padding: 8px 12px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); }
+.hint { font-size: 14px; color: var(--muted); }
+.fb { border-radius: 12px; padding: 16px; display: grid; gap: 10px; }
+.fb.good { background: var(--good-soft); }
+.fb.bad { background: var(--bad-soft); }
+.fb .verdict { font-family: var(--f-display); font-weight: 800; font-size: 20px; }
+.fb.good .verdict { color: var(--good); }
+.fb.bad .verdict { color: var(--bad); }
+.ans { font-family: var(--f-math); font-size: 20px; }
+.why { font-size: 15px; background: var(--paper); border-radius: 8px; padding: 10px 12px; border: 1px solid var(--line); }
+.steps { margin: 0; padding-left: 22px; display: grid; gap: 4px; font-size: 16px; }
+.steps li { font-family: var(--f-body); }
+details summary { cursor: pointer; font-weight: 700; color: var(--accent); }
+
+/* results */
+.big { font-family: var(--f-display); font-size: 56px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.mk { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 7px; font-weight: 700; font-size: 14px; margin-right: 3px; }
+.mk.y { background: var(--good-soft); color: var(--good); }
+.mk.n { background: var(--bad-soft); color: var(--bad); }
+.mk.x { background: var(--line); color: var(--muted); }
+.pill { font-size: 13px; font-weight: 700; border-radius: 99px; padding: 3px 10px; display: inline-block; line-height: 1.3; }
+.pill.mastered { background: var(--good-soft); color: var(--good); }
+.pill.almost { background: var(--warn-soft); color: var(--warn); }
+.pill.gap { background: var(--bad-soft); color: var(--bad); }
+.pattern { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+.pattern .n { font-family: var(--f-display); font-weight: 800; font-size: 26px; color: var(--bad); grid-row: span 2; font-variant-numeric: tabular-nums; }
+.pattern .fix { font-size: 15px; color: var(--muted); }
+.hist { display: grid; gap: 0; }
+.hist .h { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 15px; }
+.tabnum { font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .bar > span { transition: none; } }
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+// ===== Math test engine: generators with self-computed, verifiable answers =====
+const Engine = (() => {
+  const MINUS = '−';
+  let rng = Math.random;
+  const setRng = f => { rng = f; };
+  const ri = (a, b) => a + Math.floor(rng() * (b - a + 1));
+  const pick = arr => arr[Math.floor(rng() * arr.length)];
+  const nz = (a, b) => { let v = 0; while (v === 0) v = ri(a, b); return v; };
+  const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a || 1; };
+  const F = (n, d = 1) => { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d); return { n: n / g, d: d / g }; };
+  const val = f => f.n / f.d;
+  const fN = n => (n < 0 ? MINUS + (-n) : '' + n);
+  const fF = f => f.d === 1 ? fN(f.n) : `${f.n < 0 ? MINUS : ''}<span class="fr"><span>${Math.abs(f.n)}</span><span>${f.d}</span></span>`;
+  const fFtxt = f => f.d === 1 ? fN(f.n) : `${f.n < 0 ? MINUS : ''}${Math.abs(f.n)}/${f.d}`;
+  const V = v => `<i>${v}</i>`;
+  const term = (a, v) => a === 0 ? '0' : a === 1 ? V(v) : a === -1 ? MINUS + V(v) : fN(a) + V(v);
+  const plus = b => b > 0 ? ` + ${b}` : b < 0 ? ` ${MINUS} ${-b}` : '';
+  const lin = (a, b, v) => a === 0 ? fN(b) : term(a, v) + plus(b);
+  const SYM = { '<': '&lt;', '>': '&gt;', '<=': '≤', '>=': '≥' };
+  const TXT = { '<': '<', '>': '>', '<=': '≤', '>=': '≥' };
+  const FLIP = { '<': '>', '>': '<', '<=': '>=', '>=': '<=' };
+  const cmp = (op, l, r) => { const e = 1e-9; return op === '<' ? l < r - e : op === '>' ? l > r + e : op === '<=' ? l <= r + e : l >= r - e; };
+  const OPS = ['<', '>', '<=', '>='];
+  const money = c => '$' + (c / 100).toFixed(2);
+
+  // ---------- answer sets (for multiple choice) ----------
+  // {t:'single',op,v:F} {t:'and',lo,li,hi,hin} {t:'or',a,ai,b,bi} {t:'all'} {t:'none'} {t:'eq',sols:[F]} {t:'raw',label}
+  const setLabel = (s, v = 'x') => {
+    switch (s.t) {
+      case 'single': return `${V(v)} ${SYM[s.op]} ${fF(s.v)}`;
+      case 'and': return `${fF(s.lo)} ${s.li ? '≤' : '&lt;'} ${V(v)} ${s.hin ? '≤' : '&lt;'} ${fF(s.hi)}`;
+      case 'or': return `${V(v)} ${s.ai ? '≤' : '&lt;'} ${fF(s.a)} <b class="or">or</b> ${V(v)} ${s.bi ? '≥' : '&gt;'} ${fF(s.b)}`;
+      case 'all': return 'All real numbers';
+      case 'none': return 'No solution';
+      case 'eq': return s.sols.map(f => `${V(v)} = ${fF(f)}`).join(' <b class="or">or</b> ');
+      case 'raw': return s.label;
+    }
+  };
+  const setPred = s => {
+    switch (s.t) {
+      case 'single': return x => cmp(s.op, x, val(s.v));
+      case 'and': return x => (s.li ? x >= val(s.lo) - 1e-9 : x > val(s.lo) + 1e-9) && (s.hin ? x <= val(s.hi) + 1e-9 : x < val(s.hi) - 1e-9);
+      case 'or': return x => (s.ai ? x <= val(s.a) + 1e-9 : x < val(s.a) - 1e-9) || (s.bi ? x >= val(s.b) - 1e-9 : x > val(s.b) + 1e-9);
+      case 'all': return () => true;
+      case 'none': return () => false;
+      case 'eq': return x => s.sols.some(f => Math.abs(x - val(f)) < 1e-9);
+      case 'raw': return s.pred || (() => false);
+    }
+  };
+
+  const mc = (correct, distractors, v = 'x') => {
+    const seen = new Set();
+    const opts = [];
+    const add = (s, tag) => { const label = setLabel(s, v); if (seen.has(label)) return; seen.add(label); opts.push({ label, correct: !tag, tag: tag || null, set: s }); };
+    add(correct, null);
+    distractors.forEach(([s, tag]) => { if (opts.length < 4) add(s, tag); });
+    const fill = [[{ t: 'none' }, 'nosol'], [{ t: 'all' }, 'special']];
+    fill.forEach(([s, tag]) => { if (opts.length < 4) add(s, tag); });
+    for (let i = opts.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [opts[i], opts[j]] = [opts[j], opts[i]]; }
+    return { kind: 'mc', options: opts };
+  };
+
+  // ---------- skills ----------
+  const SKILLS = [
+    { id: 'multi', name: 'Multi-step inequalities', ch: '1-5' },
+    { id: 'neg', name: 'Negatives: flipping the sign', ch: '1-5' },
+    { id: 'special', name: 'No solution / all real numbers', ch: '1-5' },
+    { id: 'word', name: 'Inequality word problems', ch: '1-5' },
+    { id: 'compound', name: 'Compound inequalities (and / or)', ch: '1-6' },
+    { id: 'abseq', name: 'Absolute value equations', ch: '1-7' },
+    { id: 'absineq', name: 'Absolute value inequalities', ch: '1-7' },
+  ];
+  const TIPS = {
+    flip: 'Forgot to flip the inequality after multiplying or dividing by a negative.',
+    noflip: 'Flipped the sign when nothing negative was multiplied or divided.',
+    boundary: 'Mixed up < and ≤ (open vs. closed circle).',
+    arith: 'Arithmetic slip while undoing a step.',
+    andor: 'Mixed up AND (between) with OR (outside).',
+    isolate: 'Did not fully isolate the absolute value (divide by the number in front, including negatives).',
+    onesol: 'Found only one of the two answers.',
+    nosol: 'Mixed up when there is no solution.',
+    special: 'Misread what it means when the variables cancel.',
+    setup: 'Set up the word problem incorrectly.',
+    round: 'Rounded the wrong way for a whole-number answer.',
+  };
+  const FIX = {
+    flip: 'Circle every step where you multiply or divide by a negative number, and flip the sign right there.',
+    noflip: 'Only flip for multiplying/dividing by a negative. Adding or subtracting a negative never flips.',
+    boundary: '≤ and ≥ include the endpoint (closed dot). < and > do not (open dot).',
+    arith: 'Write each step on its own line and check the sign of every number you move.',
+    andor: 'AND = between (the overlap). OR = everything either piece covers. Absolute value: |…| < n is between, |…| > n is outside.',
+    isolate: 'Get |…| alone first: undo + or −, then DIVIDE by the number in front (keep its sign).',
+    onesol: 'Split into two equations: inside = +n and inside = −n.',
+    nosol: 'After isolating: |…| = negative has no solution. A negative in front is not a reason to stop.',
+    special: 'If the variables cancel: a true statement means all real numbers, a false one means no solution.',
+    setup: 'Write what each number means before building the inequality.',
+    round: 'Items must be whole: round DOWN for "at most", round UP for "at least" / "more than".',
+  };
+
+  const mk = (skill, level, prompt, answer, steps, extra = {}) => ({ skill, level, prompt, answer, steps, ...extra });
+  const ineqAns = (v, op, f, wrongDirTag) => ({ kind: 'ineq', v, op, val: f, wrongDirTag });
+
+  // ===== 1. multi-step =====
+  const multi = {
+    easy() {
+      const v = pick(['x', 'n', 'a', 'k']), a = ri(2, 6), x0 = ri(-8, 8), b = nz(-9, 9), c = a * x0 + b, op = pick(OPS);
+      return mk('multi', 'easy', `${lin(a, b, v)} ${SYM[op]} ${fN(c)}`, ineqAns(v, op, F(x0), 'noflip'),
+        [`${b > 0 ? 'Subtract ' + b : 'Add ' + (-b)} on both sides: ${term(a, v)} ${SYM[op]} ${fN(c - b)}`,
+         `Divide by ${a} (positive, so no flip): ${V(v)} ${SYM[op]} ${fN(x0)}`],
+        { orig: x => cmp(op, a * x + b, c), v });
+    },
+    medium() {
+      const v = pick(['x', 'y', 'm']), op = pick(OPS), x0 = ri(-7, 7);
+      if (rng() < 0.5) {
+        const a = ri(2, 5), b = nz(-6, 6), c = nz(-9, 9), d = a * (x0 + b) + c;
+        return mk('multi', 'medium', `${a}(${lin(1, b, v)})${plus(c)} ${SYM[op]} ${fN(d)}`, ineqAns(v, op, F(x0), 'noflip'),
+          [`Distribute: ${term(a, v)}${plus(a * b)}${plus(c)} ${SYM[op]} ${fN(d)}`,
+           `Combine: ${lin(a, a * b + c, v)} ${SYM[op]} ${fN(d)}`,
+           `Undo the constant: ${term(a, v)} ${SYM[op]} ${fN(d - a * b - c)}`,
+           `Divide by ${a}: ${V(v)} ${SYM[op]} ${fN(x0)}`],
+          { orig: x => cmp(op, a * (x + b) + c, d), v });
+      }
+      const c = ri(1, 5), a = c + ri(2, 5), b = nz(-9, 9), d = (a - c) * x0 + b;
+      return mk('multi', 'medium', `${lin(a, b, v)} ${SYM[op]} ${lin(c, d, v)}`, ineqAns(v, op, F(x0), 'noflip'),
+        [`Subtract ${term(c, v)} from both sides: ${lin(a - c, b, v)} ${SYM[op]} ${fN(d)}`,
+         `Undo the constant: ${term(a - c, v)} ${SYM[op]} ${fN(d - b)}`,
+         `Divide by ${a - c}: ${V(v)} ${SYM[op]} ${fN(x0)}`],
+        { orig: x => cmp(op, a * x + b, c * x + d), v });
+    },
+    hard() {
+      const v = pick(['x', 'a', 'p']), op = pick(OPS), s = ri(1, 4), k = ri(2, 6), p = s + k, q = ri(1, 5), r = nz(-8, 8);
+      let N; do { N = ri(-20, 20); } while (N % k === 0);
+      const t = N - p * q + r, ans = F(N, k);
+      return mk('multi', 'hard', `${p}(${lin(1, -q, v)})${plus(r)} ${SYM[op]} ${lin(s, t, v)}`, ineqAns(v, op, ans, 'noflip'),
+        [`Distribute: ${term(p, v)} ${MINUS} ${p * q}${plus(r)} ${SYM[op]} ${lin(s, t, v)}`,
+         `Combine: ${lin(p, r - p * q, v)} ${SYM[op]} ${lin(s, t, v)}`,
+         `Subtract ${term(s, v)}: ${lin(k, r - p * q, v)} ${SYM[op]} ${fN(t)}`,
+         `Undo the constant: ${term(k, v)} ${SYM[op]} ${fN(N)}`,
+         `Divide by ${k}: ${V(v)} ${SYM[op]} ${fF(ans)} (a fraction is fine)`],
+        { orig: x => cmp(op, p * (x - q) + r, s * x + t), v });
+    },
+  };
+
+  // ===== 2. negatives =====
+  const neg = {
+    easy() {
+      const v = pick(['x', 'b', 'n']), a = ri(2, 9), x0 = nz(-9, 9), c = -a * x0, op = pick(OPS);
+      return mk('neg', 'easy', `${term(-a, v)} ${SYM[op]} ${fN(c)}`, ineqAns(v, FLIP[op], F(x0), 'flip'),
+        [`Divide both sides by ${fN(-a)}. It is negative, so FLIP the sign.`, `${V(v)} ${SYM[FLIP[op]]} ${fN(x0)}`],
+        { orig: x => cmp(op, -a * x, c), v });
+    },
+    medium() {
+      const v = pick(['x', 'h', 'w']), op = pick(OPS);
+      if (rng() < 0.5) {
+        const a = ri(2, 8), b = nz(-9, 9), x0 = ri(-8, 8), c = -a * x0 + b;
+        return mk('neg', 'medium', `${fN(b)} ${MINUS} ${term(a, v)} ${SYM[op]} ${fN(c)}`, ineqAns(v, FLIP[op], F(x0), 'flip'),
+          [`${b > 0 ? 'Subtract ' + b : 'Add ' + (-b)}: ${term(-a, v)} ${SYM[op]} ${fN(c - b)}`,
+           `Divide by ${fN(-a)} and FLIP: ${V(v)} ${SYM[FLIP[op]]} ${fN(x0)}`],
+          { orig: x => cmp(op, b - a * x, c), v });
+      }
+      const a = ri(2, 5), m = nz(-4, 4), x0 = a * m, b = nz(-8, 8), c = -m + b;
+      return mk('neg', 'medium', `<span class="fr"><span>${V(v)}</span><span>${MINUS}${a}</span></span>${plus(b)} ${SYM[op]} ${fN(c)}`, ineqAns(v, FLIP[op], F(x0), 'flip'),
+        [`${b > 0 ? 'Subtract ' + b : 'Add ' + (-b)}: ${V(v)}/(${MINUS}${a}) ${SYM[op]} ${fN(c - b)}`,
+         `Multiply by ${MINUS}${a} and FLIP: ${V(v)} ${SYM[FLIP[op]]} ${fN(x0)}`],
+        { orig: x => cmp(op, x / -a + b, c), v });
+    },
+    hard() {
+      const v = pick(['x', 'r', 'z']), op = pick(OPS), x0 = ri(-6, 6);
+      if (rng() < 0.5) {
+        const a = ri(2, 7), d = ri(2, 6), c = nz(-6, 6), b = a * x0 + c * d;
+        return mk('neg', 'hard', `<span class="fr"><span>${lin(a, -b, v)}</span><span>${MINUS}${d}</span></span> ${SYM[op]} ${fN(c)}`, ineqAns(v, FLIP[op], F(x0), 'flip'),
+          [`Multiply both sides by ${MINUS}${d} and FLIP right away: ${lin(a, -b, v)} ${SYM[FLIP[op]]} ${fN(-c * d)}`,
+           `${b > 0 ? 'Add ' + b : 'Subtract ' + (-b)}: ${term(a, v)} ${SYM[FLIP[op]]} ${fN(-c * d + b)}`,
+           `Divide by ${a} (positive, no second flip): ${V(v)} ${SYM[FLIP[op]]} ${fN(x0)}`],
+          { orig: x => cmp(op, (a * x - b) / -d, c), v });
+      }
+      const p = ri(2, 5), q = ri(2, 4), rr = nz(-5, 5), s = ri(1, p * q - 2), k = s - p * q, t = k * x0 + p * rr;
+      return mk('neg', 'hard', `${MINUS}${p}(${lin(q, -rr, v)})${plus(s) === '' ? '' : ' + ' + term(s, v)} ${SYM[op]} ${fN(t)}`, ineqAns(v, FLIP[op], F(x0), 'flip'),
+        [`Distribute ${MINUS}${p}: ${term(-p * q, v)}${plus(p * rr)} + ${term(s, v)} ${SYM[op]} ${fN(t)}`,
+         `Combine like terms: ${lin(k, p * rr, v)} ${SYM[op]} ${fN(t)}`,
+         `Undo the constant: ${term(k, v)} ${SYM[op]} ${fN(t - p * rr)}`,
+         `Divide by ${fN(k)} and FLIP: ${V(v)} ${SYM[FLIP[op]]} ${fN(x0)}`],
+        { orig: x => cmp(op, -p * (q * x - rr) + s * x, t), v });
+    },
+  };
+
+  // ===== 3. special cases =====
+  const specialOpts = (truth, v, op, dv) => {
+    const correct = truth ? { t: 'all' } : { t: 'none' };
+    const other = truth ? [{ t: 'none' }, 'special'] : [{ t: 'all' }, 'special'];
+    return mc(correct, [other, [{ t: 'single', op, v: F(0) }, 'special'], [{ t: 'single', op: pick(OPS), v: dv }, 'arith']], v);
+  };
+  const special = {
+    easy() {
+      const v = pick(['x', 'b']), a = ri(2, 6), b = nz(-9, 9); let c; do { c = nz(-9, 9); } while (c === b);
+      const op = pick(OPS), truth = cmp(op, b, c);
+      return mk('special', 'easy', `${lin(a, b, v)} ${SYM[op]} ${lin(a, c, v)}`, specialOpts(truth, v, op, F(c - b, a)),
+        [`Subtract ${term(a, v)} from both sides. The variable cancels: ${fN(b)} ${SYM[op]} ${fN(c)}`,
+         `That statement is ${truth ? 'TRUE, so every number works: all real numbers' : 'FALSE, so nothing works: no solution'}.`],
+        { orig: x => cmp(op, a * x + b, a * x + c), v });
+    },
+    medium() {
+      const v = pick(['h', 'b', 'x']), a = ri(2, 5), b = ri(2, 4), c = nz(-8, 8); let e; do { e = nz(-8, 8); } while (e === c);
+      const op = pick(OPS), L = a * c, R = a * e, truth = cmp(op, L, R);
+      return mk('special', 'medium', `${a}(${lin(b, c, v)}) ${SYM[op]} ${a}(${lin(b, e, v)})`, specialOpts(truth, v, op, F(R - L, a * b)),
+        [`Distribute: ${lin(a * b, L, v)} ${SYM[op]} ${lin(a * b, R, v)}`,
+         `Subtract ${term(a * b, v)}: ${fN(L)} ${SYM[op]} ${fN(R)}`,
+         `That is ${truth ? 'TRUE: all real numbers' : 'FALSE: no solution'}.`],
+        { orig: x => cmp(op, a * (b * x + c), a * (b * x + e)), v });
+    },
+    hard() {
+      const v = pick(['h', 'x', 'y']), p = ri(2, 5), q = ri(2, 4), r = nz(-7, 7), op = pick(OPS), truth = op === '<=' || op === '>=';
+      const s = p * q, t = p * r;
+      const right = rng() < 0.5 ? `${lin(s, t, v)}` : `${fN(t)} + ${term(s, v)}`;
+      return mk('special', 'hard', `${p}(${lin(q, r, v)}) ${SYM[op]} ${right}`, specialOpts(truth, v, op, F(ri(1, 5))),
+        [`Distribute: ${lin(s, t, v)} ${SYM[op]} ${lin(s, t, v)}`,
+         `Subtract ${term(s, v)}: ${fN(t)} ${SYM[op]} ${fN(t)}`,
+         truth ? `${fN(t)} ${SYM[op]} ${fN(t)} is TRUE (equal counts for ≤/≥): all real numbers.` : `${fN(t)} ${SYM[op]} ${fN(t)} is FALSE (a number is never strictly bigger/smaller than itself): no solution.`],
+        { orig: x => cmp(op, p * (q * x + r), s * x + t), v });
+    },
+  };
+
+  // ===== 4. word problems =====
+  const word = {
+    easy() {
+      const [who, item] = pick([['Mary', 'rings'], ['Jonah', 'comic books'], ['Priya', 'bracelet kits'], ['Leo', 'plants']]);
+      const [first, fcost] = pick([['a pair of jeans', 1], ['a hoodie', 1], ['a backpack', 1]]);
+      let B, S, p, n;
+      do { B = ri(8, 20) * 10; S = ri(3, 8) * 5; p = ri(6, 25); n = Math.floor((B - S) / p); } while (n < 2 || n > 15 || (B - S) % p === 0 && rng() < 0.6);
+      return mk('word', 'easy', `${who} has $${B} to spend. ${who === 'Mary' || who === 'Priya' ? 'She' : 'He'} spends $${S} on ${first}, then wants to buy ${item} that cost $${p} each. What is the <b>greatest</b> number of ${item} ${who} can buy?`,
+        { kind: 'num', val: n, unit: item, diag: g => g === Math.ceil((B - S) / p) && g !== n ? 'round' : g === Math.floor(B / p) ? 'setup' : 'arith' },
+        [`Let r = number of ${item}. Inequality: ${S} + ${p}r ≤ ${B}`, `${p}r ≤ ${B - S}`, `r ≤ ${(B - S) / p % 1 === 0 ? (B - S) / p : ((B - S) / p).toFixed(2)}`, `Whole items only, round DOWN: <b>${n}</b>`],
+        { brute: g => S + p * g <= B && S + p * (g + 1) > B });
+    },
+    medium() {
+      let s1, s2, T, need;
+      do { s1 = ri(74, 96); s2 = ri(74, 96); T = ri(84, 92); need = 3 * T - s1 - s2; } while (need > 100 || need < 60);
+      return mk('word', 'medium', `Your first two science tests are ${s1} and ${s2}. What is the <b>lowest</b> score you can get on the third test to have an average of <b>at least ${T}</b>?`,
+        { kind: 'num', val: need, unit: 'points', diag: g => g === T ? 'setup' : 'arith' },
+        [`(${s1} + ${s2} + s) ÷ 3 ≥ ${T}`, `Multiply by 3: ${s1 + s2} + s ≥ ${3 * T}`, `s ≥ ${need}`, `Lowest score: <b>${need}</b>`],
+        { brute: g => (s1 + s2 + g) / 3 >= T - 1e-9 && (s1 + s2 + g - 1) / 3 < T - 1e-9 });
+    },
+    hard() {
+      let fA, fB, rA, rB, D, R, n;
+      do { fA = ri(6, 12) * 5; fB = ri(2, 6) * 5; rA = ri(80, 110) * 5; rB = rA + ri(4, 16) * 5; D = (fA - fB) * 100; R = rB - rA; n = Math.floor(D / R) + 1; } while (fA <= fB || n < 5 || n > 80);
+      const [thing, co] = pick([['roses', 'Florist'], ['T-shirts', 'Print shop'], ['cupcakes', 'Bakery']]);
+      const exact = D % R === 0;
+      return mk('word', 'hard', `${co} A charges ${money(rA)} per ${thing.slice(0, -1)} plus a $${fA} delivery fee. ${co} B charges ${money(rB)} per ${thing.slice(0, -1)} plus a $${fB} delivery fee. What is the <b>fewest</b> number of ${thing} for which ${co} A is <b>cheaper</b>?`,
+        { kind: 'num', val: n, unit: thing, diag: g => g === Math.floor(D / R) ? (exact ? 'boundary' : 'round') : 'setup' },
+        [`Use ONE variable n for both: ${(rA / 100).toFixed(2)}n + ${fA} &lt; ${(rB / 100).toFixed(2)}n + ${fB}`,
+         `Subtract ${(rA / 100).toFixed(2)}n and ${fB}: ${fA - fB} &lt; ${(R / 100).toFixed(2)}n`,
+         `Divide: n &gt; ${+(D / R).toFixed(3)}`,
+         exact ? `At exactly ${D / R} they cost the same, so A is cheaper starting at <b>${n}</b>` : `Next whole number: <b>${n}</b>`],
+        { brute: g => rA * g + fA * 100 < rB * g + fB * 100 && !(rA * (g - 1) + fA * 100 < rB * (g - 1) + fB * 100) });
+    },
+  };
+
+  // ===== 5. compound =====
+  const graphSpec = s => s; // the set itself drives the number line
+  const compound = {
+    easy() {
+      let s;
+      if (rng() < 0.5) { const lo = ri(-5, 2), hi = lo + ri(2, 5); s = { t: 'and', lo: F(lo), li: rng() < 0.5, hi: F(hi), hin: rng() < 0.5 }; }
+      else { const a = ri(-5, 1), b = a + ri(2, 5); s = { t: 'or', a: F(a), ai: rng() < 0.5, b: F(b), bi: rng() < 0.5 }; }
+      const d = [];
+      if (s.t === 'and') {
+        d.push([{ ...s, li: !s.li }, 'boundary'], [{ t: 'or', a: s.lo, ai: !s.li, b: s.hi, bi: !s.hin }, 'andor'], [{ ...s, li: !s.li, hin: !s.hin }, 'boundary']);
+      } else {
+        d.push([{ ...s, bi: !s.bi }, 'boundary'], [{ t: 'and', lo: s.a, li: !s.ai, hi: s.b, hin: !s.bi }, 'andor'], [{ ...s, ai: !s.ai, bi: !s.bi }, 'boundary']);
+      }
+      const q = mc(s, d);
+      return mk('compound', 'easy', `Which compound inequality matches this graph?`, q,
+        [s.t === 'and' ? 'The shading is BETWEEN two points: an AND inequality.' : 'The shading goes OUTWARD in two directions: an OR inequality.',
+         'Closed (filled) dot means ≤ or ≥. Open dot means &lt; or &gt;.', `Answer: ${setLabel(s)}`],
+        { graph: s, orig: setPred(s), v: 'x' });
+    },
+    medium() {
+      const v = 'x', lo = ri(-6, 2), hi = lo + ri(2, 6), a = ri(2, 7), b = nz(-9, 9), li = rng() < 0.5, hin = rng() < 0.5;
+      const L = a * lo + b, U = a * hi + b, s = { t: 'and', lo: F(lo), li, hi: F(hi), hin };
+      const q = mc(s, [[{ ...s, li: !li, hin: !hin }, 'boundary'], [{ t: 'and', lo: F(L + b, a), li, hi: F(U + b, a), hin }, 'arith'], [{ t: 'or', a: F(lo), ai: !li, b: F(hi), bi: !hin }, 'andor']]);
+      return mk('compound', 'medium', `${fN(L)} ${li ? '≤' : '&lt;'} ${lin(a, b, v)} ${hin ? '≤' : '&lt;'} ${fN(U)}`, q,
+        [`Do the same thing to all THREE parts. ${b > 0 ? 'Subtract ' + b : 'Add ' + (-b)}: ${fN(L - b)} ${li ? '≤' : '&lt;'} ${term(a, v)} ${hin ? '≤' : '&lt;'} ${fN(U - b)}`,
+         `Divide all parts by ${a}: ${setLabel(s)}`],
+        { orig: x => cmp(li ? '<=' : '<', L, a * x + b) && cmp(hin ? '<=' : '<', a * x + b, U), v });
+    },
+    hard() {
+      const v = 'x';
+      if (rng() < 0.5) {
+        const lo = ri(-5, 1), hi = lo + ri(2, 6), a = ri(2, 6), b = nz(-8, 8), s1 = rng() < 0.5, s2 = rng() < 0.5; // L (s1) -ax+b (s2) U
+        const L = -a * hi + b, U = -a * lo + b;
+        const s = { t: 'and', lo: F(lo), li: s2, hi: F(hi), hin: s1 };
+        const flipLabel = `${fN(hi)} ${s1 ? '≤' : '&lt;'} ${V(v)} ${s2 ? '≤' : '&lt;'} ${fN(lo)}`;
+        const q = mc(s, [[{ t: 'raw', label: flipLabel }, 'flip'], [{ ...s, li: !s.li, hin: !s.hin }, 'boundary'], [{ t: 'none' }, 'nosol']]);
+        return mk('compound', 'hard', `${fN(L)} ${s1 ? '≤' : '&lt;'} ${lin(-a, b, v)} ${s2 ? '≤' : '&lt;'} ${fN(U)}`, q,
+          [`${b > 0 ? 'Subtract ' + b : 'Add ' + (-b)} from all three parts: ${fN(L - b)} ${s1 ? '≤' : '&lt;'} ${term(-a, v)} ${s2 ? '≤' : '&lt;'} ${fN(U - b)}`,
+           `Divide all parts by ${fN(-a)} and FLIP both signs: ${fN(hi)} ${s1 ? '≥' : '&gt;'} ${V(v)} ${s2 ? '≥' : '&gt;'} ${fN(lo)}`,
+           `Rewrite smallest first: ${setLabel(s)}`],
+          { orig: x => cmp(s1 ? '<=' : '<', L, -a * x + b) && cmp(s2 ? '<=' : '<', -a * x + b, U), v });
+      }
+      // OR with a negative coefficient: -a x + b > c  or  d(x - e) >= f
+      const a = ri(2, 5), b = nz(-8, 8), x1 = ri(-4, 4), c = -a * x1 + b;
+      const union = rng() < 0.35;
+      const x2 = union ? x1 - ri(1, 4) : x1 + ri(1, 5);
+      const d = ri(2, 4), e = nz(-4, 4), f = d * (x2 - e);
+      const correct = union ? { t: 'all' } : { t: 'or', a: F(x1), ai: false, b: F(x2), bi: true };
+      const noflip = { t: 'raw', label: `${V(v)} &gt; ${fN(x1)} <b class="or">or</b> ${V(v)} ≥ ${fN(x2)}` };
+      const q = mc(correct, [[noflip, 'flip'], [union ? { t: 'single', op: '<', v: F(x1) } : { t: 'all' }, union ? 'andor' : 'andor'], [union ? { t: 'and', lo: F(x2), li: true, hi: F(x1), hin: false } : { t: 'and', lo: F(x1), li: false, hi: F(x2), hin: true }, 'andor'], [{ t: 'none' }, 'nosol']]);
+      return mk('compound', 'hard', `${lin(-a, b, v)} &gt; ${fN(c)} <b class="or">or</b> ${d}(${lin(1, -e, v)}) ≥ ${fN(f)}`, q,
+        [`Left: ${term(-a, v)} &gt; ${fN(c - b)}. Divide by ${fN(-a)} and FLIP: ${V(v)} &lt; ${fN(x1)}`,
+         `Right: ${lin(d, -d * e, v)} ≥ ${fN(f)} → ${term(d, v)} ≥ ${fN(f + d * e)} → ${V(v)} ≥ ${fN(x2)}`,
+         union ? `OR means shade everything either part covers. ${V(v)} &lt; ${fN(x1)} and ${V(v)} ≥ ${fN(x2)} overlap and cover the whole line: all real numbers.` : `OR keeps both pieces: ${setLabel(correct)}`],
+        { orig: x => cmp('>', -a * x + b, c) || cmp('>=', d * (x - e), f), v });
+    },
+  };
+
+  // ===== 6. absolute value equations =====
+  const solsFromR = (R, a, b) => [F(R.n - b * R.d, a * R.d), F(-R.n - b * R.d, a * R.d)].sort((p, q) => val(q) - val(p));
+  const abseq = {
+    easy() {
+      const v = 'x', c = ri(2, 15), sign = rng() < 0.5 ? 1 : -1, noSol = sign > 0 && rng() < 0.4;
+      const r = noSol ? -ri(1, 8) : ri(1, 12), d = r + sign * c; // |x| + sign*c = d
+      const correct = r < 0 ? { t: 'none' } : { t: 'eq', sols: [F(r), F(-r)] };
+      const wrong = d - sign * c * -1; // did the opposite operation
+      const dist = r < 0 ? [[{ t: 'eq', sols: [F(-r), F(r)] }, 'nosol'], [{ t: 'eq', sols: [F(-r)] }, 'nosol'], [{ t: 'eq', sols: [F(Math.abs(wrong)), F(-Math.abs(wrong))] }, 'arith']]
+                         : [[{ t: 'eq', sols: [F(r)] }, 'onesol'], [{ t: 'eq', sols: [F(Math.abs(wrong)), F(-Math.abs(wrong))] }, 'arith'], [{ t: 'none' }, 'nosol']];
+      return mk('abseq', 'easy', `|${V(v)}| ${sign > 0 ? '+' : MINUS} ${c} = ${fN(d)}`, mc(correct, dist),
+        [`Isolate the bars: |${V(v)}| = ${fN(r)}`, r < 0 ? 'An absolute value (a distance) can never be negative: no solution.' : `Split: ${V(v)} = ${r} or ${V(v)} = ${fN(-r)}`],
+        { orig: x => Math.abs(Math.abs(x) + sign * c - d) < 1e-9, v, eq: true });
+    },
+    medium() {
+      const v = pick(['x', 'g', 'w']), a = ri(2, 6), b = nz(-9, 9), c = ri(2, 12);
+      const sols = solsFromR(F(c), a, b);
+      const correct = { t: 'eq', sols };
+      const dist = [[{ t: 'eq', sols: [sols[0]] }, 'onesol'], [{ t: 'eq', sols: [F(c + b, a), F(-c + b, a)] }, 'arith'], [{ t: 'none' }, 'nosol']];
+      return mk('abseq', 'medium', `|${lin(a, b, v)}| = ${c}`, mc(correct, dist, v),
+        [`Split into two equations: ${lin(a, b, v)} = ${c} and ${lin(a, b, v)} = ${fN(-c)}`,
+         `${term(a, v)} = ${fN(c - b)} → ${V(v)} = ${fF(sols[0])}`, `${term(a, v)} = ${fN(-c - b)} → ${V(v)} = ${fF(sols[1])}`],
+        { orig: x => Math.abs(Math.abs(a * x + b) - c) < 1e-9, v, eq: true });
+    },
+    hard() {
+      const v = 'x', k = -pick([2, 3, 4, 5, 8]), a = pick([1, 1, 2]), b = nz(-6, 6), m = nz(-9, 9);
+      const noSol = rng() < 0.3;
+      let R = noSol ? F(-ri(1, 6)) : (rng() < 0.5 ? F(ri(1, 6)) : F(2 * ri(0, 3) + 1, 2));
+      if (R.d === 2 && Math.abs(k) % 2) R = F(ri(1, 6));
+      const n = val(R) * k + m; // integer by construction
+      const inside = lin(a, b, v);
+      const rhs = n - m;
+      const correct = noSol ? { t: 'none' } : { t: 'eq', sols: solsFromR(R, a, b) };
+      const addErr = F(rhs - k), mulErr = F(rhs * k);
+      const dist = [];
+      if (val(addErr) > 0) dist.push([{ t: 'eq', sols: solsFromR(addErr, a, b) }, 'isolate']);
+      if (val(mulErr) > 0) dist.push([{ t: 'eq', sols: solsFromR(mulErr, a, b) }, 'isolate']);
+      if (noSol) dist.push([{ t: 'eq', sols: solsFromR(F(-R.n, R.d), a, b) }, 'nosol']);
+      else dist.push([{ t: 'none' }, 'nosol'], [{ t: 'eq', sols: [solsFromR(R, a, b)[0]] }, 'onesol']);
+      return mk('abseq', 'hard', `${MINUS}${-k}|${inside}|${plus(m)} = ${fN(n)}`, mc(correct, dist),
+        [`${m > 0 ? 'Subtract ' + m : 'Add ' + (-m)}: ${MINUS}${-k}|${inside}| = ${fN(rhs)}`,
+         `DIVIDE by ${fN(k)} (don't add or multiply): |${inside}| = ${fF(R)}`,
+         noSol ? 'An absolute value cannot equal a negative number: no solution.' : `Split: ${inside} = ${fF(R)} or ${inside} = ${fF(F(-R.n, R.d))} → ${setLabel(correct)}`],
+        { orig: x => Math.abs(k * Math.abs(a * x + b) + m - n) < 1e-9, v, eq: true });
+    },
+  };
+
+  // ===== 7. absolute value inequalities =====
+  const absineq = {
+    easy() {
+      const v = pick(['x', 'p', 'w']), b = nz(-7, 7), c = ri(1, 8), incl = rng() < 0.5;
+      const s = { t: 'and', lo: F(-c - b), li: incl, hi: F(c - b), hin: incl };
+      const q = mc(s, [[{ t: 'or', a: F(-c - b), ai: incl, b: F(c - b), bi: incl }, 'andor'], [{ ...s, li: !incl, hin: !incl }, 'boundary'], [{ t: 'and', lo: F(-c + b), li: incl, hi: F(c + b), hin: incl }, 'arith']], v);
+      return mk('absineq', 'easy', `|${lin(1, b, v)}| ${incl ? '≤' : '&lt;'} ${c}`, q,
+        ['Less than means BETWEEN (an AND inequality).', `${fN(-c)} ${incl ? '≤' : '&lt;'} ${lin(1, b, v)} ${incl ? '≤' : '&lt;'} ${c}`, `${b > 0 ? 'Subtract ' + b : 'Add ' + (-b)}: ${setLabel(s, v)}`],
+        { orig: x => cmp(incl ? '<=' : '<', Math.abs(x + b), c), v });
+    },
+    medium() {
+      const v = pick(['x', 'w']), k = ri(2, 4), b = nz(-7, 7), R = ri(1, 6), c = k * R, incl = rng() < 0.5;
+      const s = { t: 'or', a: F(-R - b), ai: incl, b: F(R - b), bi: incl };
+      const q = mc(s, [[{ t: 'and', lo: F(-R - b), li: incl, hi: F(R - b), hin: incl }, 'andor'], [{ t: 'or', a: F(-c - b), ai: incl, b: F(c - b), bi: incl }, 'isolate'], [{ ...s, ai: !incl, bi: !incl }, 'boundary']], v);
+      return mk('absineq', 'medium', `${k}|${lin(1, b, v)}| ${incl ? '≥' : '&gt;'} ${c}`, q,
+        [`Divide by ${k}: |${lin(1, b, v)}| ${incl ? '≥' : '&gt;'} ${R}`, 'Greater than means OUTSIDE (an OR inequality).',
+         `${lin(1, b, v)} ${incl ? '≥' : '&gt;'} ${R} or ${lin(1, b, v)} ${incl ? '≤' : '&lt;'} ${fN(-R)}`, `Answer: ${setLabel(s, v)}`],
+        { orig: x => cmp(incl ? '>=' : '>', k * Math.abs(x + b), c), v });
+    },
+    hard() {
+      const v = 'x', k = ri(2, 4), a = pick([1, 2]), b = nz(-6, 6), R = ri(2, 7), m = ri(4, 14), incl = rng() < 0.5;
+      const bigger = rng() < 0.5; // original op '>' (becomes <, AND) or '<' (becomes >, OR)
+      const n = m - k * R; // -k|..| + m  (op) n  <=>  |..| (flip op) R
+      const origOp = bigger ? (incl ? '>=' : '>') : (incl ? '<=' : '<');
+      const lo = F(-R - b, a), hi = F(R - b, a);
+      const andSet = { t: 'and', lo, li: incl, hi, hin: incl }, orSet = { t: 'or', a: lo, ai: incl, b: hi, bi: incl };
+      const correct = bigger ? andSet : orSet, wrong = bigger ? orSet : andSet;
+      const dist = [[wrong, 'flip'], [bigger ? { ...andSet, li: !incl, hin: !incl } : { ...orSet, ai: !incl, bi: !incl }, 'boundary'], [{ t: 'none' }, 'nosol']];
+      const inside = lin(a, b, v);
+      return mk('absineq', 'hard', `${MINUS}${k}|${inside}| + ${m} ${SYM[origOp]} ${fN(n)}`, mc(correct, dist),
+        [`Subtract ${m}: ${MINUS}${k}|${inside}| ${SYM[origOp]} ${fN(n - m)}`,
+         `Divide by ${MINUS}${k} and FLIP: |${inside}| ${SYM[FLIP[origOp]]} ${R}`,
+         bigger ? `Less than means BETWEEN: ${fN(-R)} ${incl ? '≤' : '&lt;'} ${inside} ${incl ? '≤' : '&lt;'} ${R}` : `Greater than means OUTSIDE: ${inside} ${incl ? '≤' : '&lt;'} ${fN(-R)} or ${inside} ${incl ? '≥' : '&gt;'} ${R}`,
+         `Answer: ${setLabel(correct)}`],
+        { orig: x => cmp(origOp, -k * Math.abs(a * x + b) + m, n), v });
+    },
+  };
+
+  const GEN = { multi, neg, special, word, compound, abseq, absineq };
+  const make = (skill, level) => GEN[skill][level]();
+
+  // ---------- grading ----------
+  const parseNum = s => {
+    s = String(s).trim().replace(/−/g, '-').replace(/\s+/g, ' ');
+    let m;
+    if ((m = s.match(/^(-?)(\d+) (\d+)\/(\d+)$/))) return (m[1] ? -1 : 1) * (+m[2] + +m[3] / +m[4]);
+    if ((m = s.match(/^(-?\d+(?:\.\d+)?)\s*\/\s*(-?\d+(?:\.\d+)?)$/))) return +m[2] === 0 ? NaN : +m[1] / +m[2];
+    if (/^-?\d*\.?\d+$/.test(s)) return +s;
+    return NaN;
+  };
+  const grade = (q, resp) => {
+    const A = q.answer;
+    if (A.kind === 'mc') { const o = A.options[resp]; return o ? { ok: o.correct, tag: o.tag } : { ok: false, tag: null, invalid: true }; }
+    if (A.kind === 'num') { const g = parseNum(resp); if (isNaN(g)) return { invalid: true }; return g === A.val ? { ok: true } : { ok: false, tag: A.diag(g) }; }
+    if (A.kind === 'ineq') {
+      const g = parseNum(resp.value); if (isNaN(g) || !resp.op) return { invalid: true };
+      const t = val(A.val);
+      const close = Math.abs(g - t) < 1e-9 || (/\./.test(resp.value) && Math.abs(g - t) < 0.006);
+      if (close && resp.op === A.op) return { ok: true };
+      if (close && resp.op === FLIP[A.op]) return { ok: false, tag: A.wrongDirTag };
+      if (close) {
+        const dirSame = (resp.op[0] === A.op[0]);
+        return { ok: false, tag: dirSame ? 'boundary' : A.wrongDirTag };
+      }
+      if (Math.abs(Math.abs(g) - Math.abs(t)) < 1e-9 && resp.op === FLIP[A.op]) return { ok: false, tag: 'arith' };
+      return { ok: false, tag: 'arith' };
+    }
+  };
+  const answerText = q => {
+    const A = q.answer;
+    if (A.kind === 'mc') return A.options.find(o => o.correct).label;
+    if (A.kind === 'num') return `<b>${A.val}</b> ${A.unit}`;
+    return `${V(A.v)} ${SYM[A.op]} ${fF(A.val)}`;
+  };
+
+  // number line SVG for graph questions
+  const numberLine = (s, w = 520) => {
+    const min = -7, max = 7, pad = 26, H = 64, y = 30;
+    const X = t => pad + (t - min) * (w - 2 * pad) / (max - min);
+    let g = `<svg class="nl" viewBox="0 0 ${w} ${H}" role="img" aria-label="number line graph"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>`;
+    g += `<line x1="${pad - 16}" y1="${y}" x2="${w - pad + 16}" y2="${y}" stroke="var(--ink)" stroke-width="1.5" marker-start="url(#ar)" marker-end="url(#ar)"/>`;
+    for (let t = -6; t <= 6; t++) g += `<line x1="${X(t)}" y1="${y - 5}" x2="${X(t)}" y2="${y + 5}" stroke="var(--ink)" stroke-width="1"/><text x="${X(t)}" y="${y + 22}" font-size="12" text-anchor="middle" fill="var(--ink)">${fN(t)}</text>`;
+    const seg = (x1, x2, arrowL, arrowR) => `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" ${arrowL ? 'marker-start="url(#ar2)"' : ''} ${arrowR ? 'marker-end="url(#ar2)"' : ''}/>`;
+    g += `<defs><marker id="ar2" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="3.2" markerHeight="3.2" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--accent)"/></marker></defs>`;
+    const dot = (t, closed) => `<circle cx="${X(t)}" cy="${y}" r="6" stroke="var(--accent)" stroke-width="2.5" fill="${closed ? 'var(--accent)' : 'var(--paper)'}"/>`;
+    if (s.t === 'and') g += seg(X(val(s.lo)), X(val(s.hi))) + dot(val(s.lo), s.li) + dot(val(s.hi), s.hin);
+    if (s.t === 'or') g += seg(pad - 8, X(val(s.a)), true, false) + seg(X(val(s.b)), w - pad + 8, false, true) + dot(val(s.a), s.ai) + dot(val(s.b), s.bi);
+    return g + '</svg>';
+  };
+
+  return { SKILLS, TIPS, FIX, make, grade, answerText, numberLine, setPred, parseNum, setRng, val, SYM, FLIP, cmp, LEVELS: ['easy', 'medium', 'hard'] };
+})();
+if (typeof module !== 'undefined') module.exports = Engine;
+
+</script>
+<script>
+(() => {
+  const E = Engine;
+  const $app = document.getElementById('app');
+  const SK = Object.fromEntries(E.SKILLS.map(s => [s.id, s]));
+  const LVL = { easy: 'Easy', medium: 'Medium', hard: 'Hard' };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  let db = null, history = [];
+
+  const fresh = () => ({ id: 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), startedAt: new Date().toISOString(), rounds: [], status: {}, screen: 'home', q: [], i: 0, resp: null, graded: null, answers: [] });
+  let S = fresh();
+
+  // ---------- building rounds ----------
+  function buildRound(first) {
+    const qs = [];
+    if (first) E.SKILLS.forEach(s => E.LEVELS.forEach(l => qs.push(E.make(s.id, l))));
+    else E.SKILLS.forEach(s => {
+      const st = S.status[s.id];
+      if (st === 'gap') ['easy', 'medium', 'hard'].forEach(l => qs.push(E.make(s.id, l)));
+      else if (st === 'almost') ['medium', 'hard', 'hard'].forEach(l => qs.push(E.make(s.id, l)));
+    });
+    return qs;
+  }
+  function startRound(first) {
+    S.q = buildRound(first); S.i = 0; S.answers = []; S.resp = null; S.graded = null; S.screen = 'quiz';
+    S.roundNo = S.rounds.length + 1; render(); window.scrollTo({ top: 0 });
+  }
+  function finishRound() {
+    const per = {}, tags = {};
+    S.answers.forEach(a => { (per[a.skill] ||= { ok: 0, total: 0, levels: [] }); per[a.skill].total++; if (a.ok) per[a.skill].ok++; per[a.skill].levels.push([a.level, a.ok]); if (!a.ok && a.tag) tags[a.tag] = (tags[a.tag] || 0) + 1; });
+    Object.entries(per).forEach(([k, p]) => { S.status[k] = p.ok === p.total ? 'mastered' : (p.total >= 3 && p.ok >= p.total - 1) ? 'almost' : 'gap'; });
+    const ok = S.answers.filter(a => a.ok).length;
+    S.rounds.push({ n: S.roundNo, score: ok, total: S.answers.length, per, tags, at: new Date().toISOString() });
+    S.screen = 'results'; render(); window.scrollTo({ top: 0 }); save();
+  }
+
+  // ---------- persistence ----------
+  async function save() {
+    if (!db) return;
+    const gaps = E.SKILLS.filter(s => S.status[s.id] && S.status[s.id] !== 'mastered').map(s => s.id);
+    try {
+      await db.collection('attempts').doc(S.id).set({
+        startedAt: S.startedAt, updatedAt: new Date().toISOString(), status: S.status, gaps,
+        rounds: S.rounds.map(r => ({ n: r.n, score: r.score, total: r.total, tags: r.tags, per: Object.fromEntries(Object.entries(r.per).map(([k, p]) => [k, { ok: p.ok, total: p.total }])) }))
+      });
+    } catch (e) { console.warn('save failed', e); }
+  }
+  (async () => {
+    try { db = await window.claude?.use?.('db'); } catch { db = null; }
+    if (!db) return;
+    try {
+      db.collection('attempts').orderBy('updatedAt', 'desc').limit(8).onSnapshot(snap => { history = snap.docs.map(d => ({ id: d.id, ...d.data() })); if (S.screen === 'home') render(); }, () => {});
+    } catch { }
+  })();
+
+  // ---------- screens ----------
+  function render() {
+    if (S.screen === 'home') return home();
+    if (S.screen === 'quiz') return quiz();
+    if (S.screen === 'results') return results();
+  }
+
+  function home() {
+    const hist = history.length ? `<div class="card"><h3>Past attempts</h3><div class="hist">${history.map(h => {
+      const r1 = h.rounds?.[0], last = h.rounds?.[h.rounds.length - 1];
+      const d = new Date(h.startedAt);
+      const gaps = (h.gaps || []).map(g => SK[g]?.name).filter(Boolean);
+      return `<div class="h"><span class="tabnum">${d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span><span class="tabnum">First try ${r1 ? r1.score + '/' + r1.total : '-'} · ${h.rounds?.length || 0} round${h.rounds?.length === 1 ? '' : 's'}</span><span class="muted">${gaps.length ? 'Still working on: ' + esc(gaps.join(', ')) : (last ? 'All skills mastered' : 'In progress')}</span></div>`;
+    }).join('')}</div></div>` : '';
+    $app.innerHTML = `
+      <header style="display:grid;gap:10px">
+        <span class="eyebrow">7th grade accelerated math · Chapters 1-5 to 1-7</span>
+        <h1>Aviaana's Inequality Check</h1>
+        <p class="muted" style="max-width:60ch">21 questions: an easy, a medium and a hard one for each skill below. Every answer is checked right away with the worked steps. At the end you'll see which skills are solid and which need practice, then you can retry only your gaps with brand-new numbers until they're mastered.</p>
+      </header>
+      <div class="card">
+        <h3>What's on the test</h3>
+        <div class="skills">${E.SKILLS.map(s => `<div class="skill"><span class="ch">${s.ch}</span><span>${s.name}</span></div>`).join('')}</div>
+        <div class="row"><button class="btn" id="go">Start the test</button><span class="hint">Have paper and a pencil ready. About 30 minutes.</span></div>
+      </div>
+      ${hist}`;
+    document.getElementById('go').onclick = () => { S = { ...fresh() }; startRound(true); };
+  }
+
+  function answerUI(q) {
+    const A = q.answer;
+    if (A.kind === 'mc') return `<div class="opts" role="group" aria-label="answer choices">${A.options.map((o, k) => `<button class="opt" id="opt${k}" data-k="${k}" aria-pressed="false"><span class="key">${'ABCD'[k]}</span><span class="lab">${o.label}</span></button>`).join('')}</div>`;
+    if (A.kind === 'num') return `<div class="ineq"><input class="val" id="val" inputmode="decimal" autocomplete="off" placeholder="?" aria-label="your answer"><span class="muted" style="font-size:17px">${esc(A.unit)}</span></div>`;
+    return `<div class="ineq"><span class="math"><i>${A.v}</i></span><div class="ops" role="group" aria-label="inequality sign">${['<', '>', '<=', '>='].map(o => `<button class="opbtn" id="op-${o.replace('<', 'lt').replace('>', 'gt').replace('=', 'e')}" data-op="${o}" aria-pressed="false">${E.SYM[o]}</button>`).join('')}</div><input class="val" id="val" autocomplete="off" placeholder="number" aria-label="number"></div><p class="hint">Pick the sign, then type the number. Fractions are fine: −13/3 or -13/3.</p>`;
+  }
+
+  function quiz() {
+    const q = S.q[S.i], total = S.q.length, A = q.answer;
+    const isText = q.skill === 'word';
+    const lead = q.graph ? '' : A.kind === 'mc' ? (q.skill === 'compound' && q.level === 'easy' ? '' : 'Solve, then pick the answer.') : A.kind === 'ineq' ? 'Solve.' : '';
+    $app.innerHTML = `
+      <div class="qtop"><span class="eyebrow">${S.roundNo === 1 ? 'Test' : 'Practice round ' + S.roundNo + ' · gaps only'}</span><span class="eyebrow tabnum">Question ${S.i + 1} of ${total}</span></div>
+      <div class="bar" aria-hidden="true"><span style="width:${(S.i / total) * 100}%"></span></div>
+      <div class="card">
+        <div class="row"><span class="ch">${SK[q.skill].ch}</span><span class="muted">${SK[q.skill].name}</span><span class="lvl ${q.level}">${LVL[q.level]}</span></div>
+        ${lead ? `<p class="muted">${lead}</p>` : ''}
+        <div class="prompt ${isText ? 'text' : 'math'}">${q.prompt}</div>
+        ${q.graph ? `<div class="nlwrap">${E.numberLine(q.graph)}</div>` : ''}
+        <div id="ansArea">${answerUI(q)}</div>
+        <div id="fb"></div>
+        <div class="row"><button class="btn" id="check" disabled>Check answer</button><span class="hint" id="warn"></span></div>
+      </div>`;
+    wire(q);
+  }
+
+  function wire(q) {
+    const A = q.answer, check = document.getElementById('check');
+    let resp = A.kind === 'ineq' ? { op: null, value: '' } : A.kind === 'num' ? '' : null;
+    const ready = () => { check.disabled = A.kind === 'mc' ? resp === null : A.kind === 'num' ? !String(resp).trim() : !(resp.op && resp.value.trim()); };
+    if (A.kind === 'mc') $app.querySelectorAll('.opt').forEach(b => b.onclick = () => { if (S.graded) return; $app.querySelectorAll('.opt').forEach(x => x.setAttribute('aria-pressed', 'false')); b.setAttribute('aria-pressed', 'true'); resp = +b.dataset.k; ready(); });
+    if (A.kind === 'ineq') {
+      $app.querySelectorAll('.opbtn').forEach(b => b.onclick = () => { if (S.graded) return; $app.querySelectorAll('.opbtn').forEach(x => x.setAttribute('aria-pressed', 'false')); b.setAttribute('aria-pressed', 'true'); resp.op = b.dataset.op; ready(); });
+    }
+    const inp = document.getElementById('val');
+    if (inp) { inp.oninput = () => { if (A.kind === 'num') resp = inp.value; else resp.value = inp.value; ready(); }; inp.onkeydown = e => { if (e.key === 'Enter' && !check.disabled) check.click(); }; }
+    check.onclick = () => {
+      if (S.graded) return next();
+      const g = E.grade(q, resp);
+      if (g.invalid) { document.getElementById('warn').textContent = 'Type a number like 4, −3, 5/2 or 1.5'; return; }
+      document.getElementById('warn').textContent = '';
+      S.graded = g;
+      S.answers.push({ skill: q.skill, level: q.level, ok: g.ok, tag: g.tag || null });
+      showFeedback(q, g, resp);
+      check.textContent = S.i + 1 < S.q.length ? 'Next question' : 'See my results';
+      check.disabled = false; check.focus();
+    };
+  }
+
+  function showFeedback(q, g, resp) {
+    const A = q.answer;
+    if (A.kind === 'mc') $app.querySelectorAll('.opt').forEach(b => { const o = A.options[+b.dataset.k]; if (o.correct) b.classList.add('right'); else if (+b.dataset.k === resp) b.classList.add('wrong'); b.disabled = true; });
+    $app.querySelectorAll('.opbtn, #val').forEach(el => el.disabled = true);
+    const fb = document.getElementById('fb');
+    fb.innerHTML = `<div class="fb ${g.ok ? 'good' : 'bad'}">
+      <div class="verdict">${g.ok ? 'Correct' : 'Not quite'}</div>
+      ${g.ok ? '' : `<div>Correct answer: <span class="ans">${E.answerText(q)}</span></div>`}
+      ${!g.ok && g.tag ? `<div class="why"><b>What likely happened:</b> <span id="tip"></span><br><b>Next time:</b> <span id="fix"></span></div>` : ''}
+      <details ${g.ok ? '' : 'open'}><summary>Worked steps</summary><ol class="steps">${q.steps.map(s => `<li>${s}</li>`).join('')}</ol></details>
+    </div>`;
+    if (!g.ok && g.tag) { document.getElementById('tip').textContent = E.TIPS[g.tag]; document.getElementById('fix').textContent = E.FIX[g.tag]; }
+  }
+
+  function next() {
+    S.graded = null;
+    if (S.i + 1 < S.q.length) { S.i++; quiz(); window.scrollTo({ top: 0 }); }
+    else finishRound();
+  }
+
+  function results() {
+    const r = S.rounds[S.rounds.length - 1];
+    const firstR = S.rounds[0];
+    const gaps = E.SKILLS.filter(s => S.status[s.id] && S.status[s.id] !== 'mastered');
+    const allTags = {};
+    S.rounds.forEach(rr => Object.entries(rr.tags).forEach(([t, n]) => allTags[t] = (allTags[t] || 0) + n));
+    const tagList = Object.entries(r.tags).sort((a, b) => b[1] - a[1]);
+    const nextCount = gaps.length * 3;
+    const statusLabel = { mastered: 'Mastered', almost: 'Almost there', gap: 'Needs practice' };
+    $app.innerHTML = `
+      <header style="display:grid;gap:8px">
+        <span class="eyebrow">${r.n === 1 ? 'Test results' : 'Practice round ' + r.n + ' results'}</span>
+        <h1>${gaps.length ? (r.n === 1 ? 'Here are your gaps' : 'Getting closer') : 'Every skill mastered'}</h1>
+      </header>
+      <div class="card">
+        <div class="row" style="gap:28px;align-items:flex-end">
+          <div><div class="big">${r.score}<span class="muted" style="font-size:28px">/${r.total}</span></div><span class="hint">this round</span></div>
+          ${S.rounds.length > 1 ? `<div><div class="big" style="font-size:34px">${firstR.score}/${firstR.total}</div><span class="hint">first test</span></div>` : ''}
+          <div class="muted" style="flex:1;min-width:200px">${gaps.length ? `${gaps.length} skill${gaps.length > 1 ? 's' : ''} to practice. The next round has fresh numbers for just ${gaps.length > 1 ? 'those skills' : 'that skill'}.` : 'Nice work. Come back next week to keep these fresh.'}</div>
+        </div>
+        <div class="tablewrap"><table>
+          <thead><tr><th>Skill</th><th>This round</th><th>Status</th></tr></thead>
+          <tbody>${E.SKILLS.map(s => {
+            const p = r.per[s.id], st = S.status[s.id];
+            const marks = p ? p.levels.map(([l, ok]) => `<span class="mk ${ok ? 'y' : 'n'}" title="${LVL[l]}">${l[0].toUpperCase()}</span>`).join('') : '<span class="muted">already mastered</span>';
+            return `<tr><td><span class="ch">${s.ch}</span> ${s.name}</td><td style="white-space:nowrap">${marks}</td><td><span class="pill ${st}">${statusLabel[st]}</span></td></tr>`;
+          }).join('')}</tbody>
+        </table></div>
+        <p class="hint">E / M / H = easy, medium, hard question. Green = right, red = missed.</p>
+      </div>
+      ${tagList.length ? `<div class="card"><h3>Mistake patterns this round</h3><div>${tagList.map(([t, n]) => `<div class="pattern"><span class="n">${n}×</span><span class="t" data-t="${t}"></span><span class="fix" data-f="${t}"></span></div>`).join('')}</div></div>` : ''}
+      <div class="row">
+        ${gaps.length ? `<button class="btn" id="again">Practice my gaps (${nextCount} questions)</button>` : ''}
+        <button class="btn ghost" id="retake">Take a new full test</button>
+        <button class="btn ghost" id="homeB">Home</button>
+      </div>`;
+    $app.querySelectorAll('[data-t]').forEach(el => el.textContent = E.TIPS[el.dataset.t]);
+    $app.querySelectorAll('[data-f]').forEach(el => el.textContent = E.FIX[el.dataset.f]);
+    document.getElementById('again')?.addEventListener('click', () => startRound(false));
+    document.getElementById('retake').onclick = () => { S = fresh(); startRound(true); };
+    document.getElementById('homeB').onclick = () => { S.screen = 'home'; render(); };
+  }
+
+  render();
+})();
+</script>
+
+</body></html>
