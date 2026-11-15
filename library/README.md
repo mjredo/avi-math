@@ -35,3 +35,10 @@ The question generators (43 skills) are listed in `src/gen.js` (Topic 3), `src/t
 - `archive/topic2-test-series.html`: Topic 2 timed tests and Unit 2 quiz practice (10/26 to 11/1)
 
 These are copies of Claude artifacts. On GitHub they open and run, but they don't save results.
+
+## Weekly routine (same as Araaya's lab)
+The site already has the whole year laid out (All quizzes & tests tab). Each topic gets Quiz 1, Quiz 2 and a Topic test once its questions are built. Each week:
+1. **Before a new topic or quiz:** Manoj sends what's on it (a screenshot of the lessons, or the teacher's practice quiz). Claude builds or refines the generators for those lessons, plus a prep assessment laid out like the teacher's quiz, the way `T3-QZ` is.
+2. **During the week:** Claude reads `/c/results` (the readable work record), `/c/rounds` and `/c/progress`. It fixes any question that was confusing or wrong, and adds targeted generators or steps for repeat mistakes.
+3. **After school results come back:** Aviaana or Manoj uploads the graded paper in Review library → School results and ticks the lessons she missed. Those lessons move up in the weak-spot rounds and the cumulative review.
+4. **Before semester or cumulative tests:** use Review library → Cumulative review, plus weak-spot rounds, until her practice tests are at 100%.

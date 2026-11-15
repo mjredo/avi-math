@@ -1,13 +1,13 @@
 // Aviaana's Math Lab — progress + school results sync (Cloudflare Worker + KV)
 // Bind a KV namespace to this Worker with the variable name AVLAB.
-// GET    /c/<collection>          -> [{id, data}]     collections: progress, rounds, school
+// GET    /c/<collection>          -> [{id, data}]     collections: progress, rounds, school, results (results/record = readable work record)
 // PUT    /d/<collection>/<id>     body = JSON doc      (only from the site's own origin)
 // DELETE /d/<collection>/<id>                          (only from the site's own origin)
 // PUT    /f/<id>                  body = file bytes    (photo/PDF of a school paper, up to 10 MB)
 // GET    /f/<id>                  -> the file
 // DELETE /f/<id>
 const ORIGINS = ["https://mjredo.github.io"];
-const COLS = new Set(["progress", "rounds", "school"]);
+const COLS = new Set(["progress", "rounds", "school", "results"]);
 const MAX = 400_000, MAXFILE = 10_000_000;
 
 function cors(origin) {

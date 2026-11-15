@@ -32,7 +32,7 @@ eng=eng[:s]+r'''function renderCourse(){
     h+=`<section class="topic"><div class="thead"><span class="tnum">Topic ${T.t}</span><span class="tname">${T.name}</span>${T.done?'<span class="pill">Done</span>':""}</div>
     <details${as.length?" open":""}><summary>${T.lessons.length} lessons</summary><ul class="lessons">${T.lessons.map(l=>`<li><b>${l[0]}</b> ${l[1]}</li>`).join("")}</ul></details>
     ${T.link?`<p class="note">Earlier practice: <a href="${T.link}" target="_blank" rel="noopener">${T.linkName}</a></p>`:""}
-    <div class="arow">${as.map(a=>{const s=statusOf(a.id);return`<button class="acard ${a.id===CUR?"cur":""}" data-open="${a.id}"><span class="aname">${a.name}</span><span class="ales">${a.span||a.lessons.join(", ")}</span><span class="st ${s.cls}">${s.txt}</span></button>`}).join("")}</div>
+    <div class="arow">${as.map(a=>{const s=statusOf(a.id);return`<button class="acard ${a.id===CUR?"cur":""}" data-open="${a.id}"><span class="aname">${a.card||a.name}</span><span class="ales">${a.span||a.lessons.join(", ")}</span><span class="st ${s.cls}">${s.txt}</span></button>`}).join("")}</div>
     ${!as.length&&!T.done?'<p class="note">Coming when the class gets here.</p>':""}</section>`}
   document.getElementById("course").innerHTML=h}
 
@@ -53,7 +53,7 @@ assert pn in eng
 eng=eng.replace(pn,open('note.txt').read().rstrip('\n'))
 import json as _j
 lib=open('library.js').read().replace('__HISTORY__',_j.dumps(_j.load(open('history.json')),ensure_ascii=False))
-t2a=open('t2adapter.js').read();g1=open('gen1.js').read()
+t2a=open('t2adapter.js').read();g1=open('gen1.js').read();ext=open('extras.js').read()
 def rp(old,new):
     global eng
     if eng.count(old)!=1: sys.exit('engine patch count '+str(eng.count(old))+': '+old[:60])
@@ -72,13 +72,18 @@ rp('${COURSE.find(t=>t.t===A.topic).name}`}','${(COURSE.find(t=>t.t===A.topic)||
 rp(' For an exponent, tap <b>x<sup>□</sup></b> and type it (tap again to go back). Example: 1 0 x<sup>□</sup> 4 gives 10<sup>4</sup>.','')
 rp('<button type="button" class="kb" data-sup="${id}" aria-pressed="false" title="Type an exponent">x<sup>□</sup></button>','')
 rp('For each step, first choose what we should do next. Then do it.','Work through each step. Where there are choices, first pick what to do next, then do it.')
+rp('Copy results</button></div><div id="cmsg"></div></div>`;','Copy results</button></div><div id="cmsg"></div></div>`;h+=extraParentHTML();')
+rp(' (useful when she practices on the web copy, where Claude can\'t see her progress)','')
+rp('if(push)queueSync()}','if(push){queueSync();pushRecord()}}')
 rp('loadLocal();open(CUR);render();','loadLocal();loadDynLocal();open(CUR);render();')
-rp('  try{if(await pullProgress()){ITEMS={};S=STORE[CUR];render()}}catch(e){SYNC.err=String(e.message||e)}','  try{if(await pullProgress()){ITEMS={};S=STORE[CUR];render()}}catch(e){SYNC.err=String(e.message||e)}\n  await loadSchool();if(!document.getElementById("review").hidden)renderReview();')
+rp('  try{if(await pullProgress()){ITEMS={};S=STORE[CUR];render()}}catch(e){SYNC.err=String(e.message||e)}','  try{if(await pullProgress()){ITEMS={};S=STORE[CUR];render()}}catch(e){SYNC.err=String(e.message||e)}\n  await loadSchool();pushRecord();if(SYNC.mode==="web")document.getElementById("webnote").hidden=false;if(!document.getElementById("review").hidden)renderReview();')
 head2=head.replace('<button class="tab" id="tabParent" aria-pressed="false">Parent view</button>','<button class="tab" id="tabReview" aria-pressed="false">Review library</button>\n      <button class="tab" id="tabParent" aria-pressed="false">Parent view</button>')
+head2=head2.replace('<div class="card prep" id="prep" hidden></div>','<div class="fb tip" id="webnote" hidden>Website copy: her progress syncs online, so she can use any browser or device. Parent view shows the sync status.</div>\n  <div class="card prep" id="prep" hidden></div>')
 head2=head2.replace('<div id="parent" class="card parent" hidden></div>','<div id="review" class="card" hidden></div>\n  <div id="parent" class="card parent" hidden></div>')
 head2=head2.replace('</style>\n<div class="wrap">',open('extra.css').read()+'</style>\n<div class="wrap">',1)
 assert head2.count('tabReview')==1 and head2.count('id="review"')==1
-out=head2+'\n'+helpers+'\n'+gen+'\n'+t2a+'\n'+g1+'\n'+course+'\n'+lib+'\n'+eng
+out=head2+'\n'+helpers+'\n'+gen+'\n'+t2a+'\n'+g1+'\n'+course+'\n'+lib+'\n'+ext+'\n'+eng
+out=out.replace("(same as Araaya's lab)","(same as the sister lab)").replace("(same idea as Araaya's lab)","(same idea as the sister lab)")
 assert 'Araaya' not in out, [m.start() for m in re.finditer('Araaya',out)]
 open(os.path.join(D,'..','index.html'),'w',encoding='utf8').write(out)
 print(len(out))
