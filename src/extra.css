@@ -36,3 +36,5 @@
 .sfiles{display:flex;flex-wrap:wrap;gap:8px}
 .sfiles img{height:110px;border-radius:8px;border:1px solid var(--line);object-fit:cover}
 .fpdf{padding:8px 10px;border:1px solid var(--line);border-radius:8px}
+.flagbtn{margin-left:auto;font-size:13px;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}

@@ -40,9 +40,12 @@ const NEED_STREAK=2,LEGACY={};
 const ASSESS=[];
 // Whole-year layout (same idea as Araaya's lab): each topic gets Quiz 1 / Quiz 2 / Topic test once its questions are built.
 // Questions for a topic are built (and refined) the week before she starts it.
-ASSESS.push({id:"T1-REV",topic:1,kind:"chapter",card:"Topic 1 review",name:"Topic 1 Review (1-5 to 1-7)",span:"1-5 to 1-7",lessons:["1-5","1-6","1-7"],n:20,min:30});
-ASSESS.push({id:"T2-QA",topic:2,kind:"quiz",card:"Quiz 1",name:"Topic 2 Quiz 1",span:"2-1 to 2-2",lessons:["2-1","2-2"],n:20,min:30});
-ASSESS.push({id:"T2-QB",topic:2,kind:"quiz",card:"Quiz 2",name:"Topic 2 Quiz 2",span:"2-3 to 2-4",lessons:["2-3","2-4"],n:20,min:30});
-ASSESS.push({id:"T2-CH",topic:2,kind:"chapter",card:"Topic test",name:"Topic 2 Test",span:"All lessons",lessons:["2-1","2-2","2-3","2-4"],n:25,min:40});
+// Quiz 1 / Quiz 2 split at the middle of each topic (change a split here when her teacher's quizzes differ).
+const QSPLIT={1:4,2:2,3:3,4:3,5:2,6:3,7:3,8:3,9:4,10:3,11:3};
+for(const T of COURSE){const L=T.lessons.map(l=>l[0]),k=QSPLIT[T.t]||Math.ceil(L.length/2),q1=L.slice(0,k),q2=L.slice(k);const sp=a=>a.length>1?a[0]+" to "+a[a.length-1]:a[0];
+  ASSESS.push({id:`T${T.t}-QA`,topic:T.t,kind:"quiz",card:"Quiz 1",name:`Topic ${T.t} Quiz 1`,span:sp(q1),lessons:q1,n:20,min:30});
+  ASSESS.push({id:`T${T.t}-QB`,topic:T.t,kind:"quiz",card:"Quiz 2",name:`Topic ${T.t} Quiz 2`,span:sp(q2),lessons:q2,n:20,min:30});
+  ASSESS.push({id:`T${T.t}-CH`,topic:T.t,kind:"chapter",card:"Topic test",name:`Topic ${T.t} Test`,span:"All lessons",lessons:L,n:25,min:40});}
+// cumulative tests: Topics 1 through N
+for(const T of COURSE){if(T.t<2)continue;ASSESS.push({id:`CUM-1-${T.t}`,topic:null,kind:"cumulative",card:`Topics 1–${T.t}`,name:`Cumulative review: Topics 1–${T.t}`,lessons:COURSE.filter(x=>x.t<=T.t).flatMap(x=>x.lessons.map(l=>l[0])),n:30,min:45,retests:6})}
 ASSESS.push({id:"T3-QZ",topic:3,kind:"mid",card:"Quiz (week of Nov 16)",name:"Topic 3 Quiz",lessons:["3-1","3-2","3-4","3-5","3-6"],span:"3-1 to 3-6 (not 3-3)",teacher:"the Topic 3 quiz (3-1, 3-2, 3-4, 3-5, 3-6)",firstL:T3Q_FIRST,testL:T3Q_TEST,n:T3Q_TEST.length,first:T3Q_FIRST.length,min:40,need:2,strNeed:2,retests:0,timeRef:true,date:null});
-ASSESS.push({id:"T3-CH",topic:3,kind:"chapter",card:"Topic test",name:"Topic 3 Test",span:"3-1 to 3-6 (3-3 not built yet)",lessons:["3-1","3-2","3-4","3-5","3-6"],n:25,min:40});

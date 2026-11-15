@@ -23,11 +23,32 @@ Use this to plan cumulative reviews. The site's **Review library** tab shows the
 | Test | Lessons | Layout |
 |---|---|---|
 | Topic 3 Quiz prep (`T3-QZ`) | 3-1, 3-2, 3-4, 3-5, 3-6 | Assessment test (28 questions), then 10-question rounds, then a 25-question practice test. She needs 100% on 2 practice tests in a row. |
-| Cumulative review (`CUM-1-3`) | 1-5 to 1-7, 2-1 to 2-4, 3-1 to 3-6 | 30 questions across every lesson, plus up to 6 re-tests on weak spots, then strengthen rounds and timed tests |
+| Topic N Quiz 1 / Quiz 2 / Test (`TN-QA`, `TN-QB`, `TN-CH`) | Half a topic / half a topic / all of it | First test (20 or 25 questions plus re-tests), then strengthen rounds, then timed tests until she gets 100% twice |
+| Cumulative review (`CUM-1-N`) | Topics 1 through N | 30 questions plus up to 6 re-tests on weak spots |
 | Weak-spot round (`WEAK-<time>`) | Her 5 weakest skills | 10 questions |
 | Skill drill (`DRILL-<skill>`) | One skill | 10 questions |
 
-The question generators (43 skills) are listed in `src/gen.js` (Topic 3), `src/t2adapter.js` (Topic 2 plus the Topic 1 review skills) and `src/gen1.js` (Topic 1). Each lab skill key maps to its lesson in `LESSON`.
+## Question bank: 94 skills, every lesson of the year
+| File | Lessons |
+|---|---|
+| `src/genY1.js` | 1-1 to 1-4, 3-3 |
+| `src/gen1.js` | 1-5, 1-6 |
+| `src/t2adapter.js` | 2-1 to 2-4, plus 1-5 and 1-7 review (from the Topic 2 Test Series) |
+| `src/gen.js` | 3-1, 3-2, 3-4, 3-5, 3-6 |
+| `src/genY2.js` | Topics 4, 5, 6 |
+| `src/genY3.js` | Topics 7, 8, 9 |
+| `src/genY4.js` | Topics 10, 11 |
+
+`node src/verify2.js` builds 1,500 questions for every skill and variant (313,500 in all). It checks for 4 distinct choices, valid steps, no NaN, and that GCF answers are fully factored. `node src/sample.js <prefix>` prints sample questions, so you can read them over.
+
+## Whole-year layout
+- Every topic has **Quiz 1, Quiz 2 and a Topic test**. Each quiz covers half of the topic's lessons. The split is set in `QSPLIT` in `src/course.js`; change it when the teacher's quizzes differ.
+- **Cumulative tests:** `CUM-1-N` covers Topics 1 through N. The Review tab has buttons for "so far" (`CUR_TOPIC` in `src/library.js`), Semester 1 (Topics 1–5) and Year-end (Topics 1–11), plus a picker for any range.
+- **Real quiz prep**, built from the teacher's lessons, is a `mid` assessment, like `T3-QZ`.
+
+## Feedback loop
+- She can tap **⚑ Flag** on any question to report it as confusing or wrong. Each flag is saved to `results/flag-<time>`, with the exact spec (generator, variant, seed), the question, the choices and her note.
+- Claude reads `/c/results` (the work record plus flags), `/c/rounds` and `/c/progress`. It fixes or replaces flagged generators, adds steps for repeat mistakes, and republishes.
 
 ## Archive
 - `archive/topic1-inequality-check.html`: Topic 1 check (9/29), 7 skills × easy, medium and hard

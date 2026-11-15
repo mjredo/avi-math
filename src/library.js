@@ -3,7 +3,7 @@ const HISTORY=__HISTORY__;
 const SITE="https://mjredo.github.io/avi-math/";
 let SCHOOL=[];
 const LIB_LESSONS=Object.keys(LESSON_SKILLS).filter(l=>LESSON_SKILLS[l].some(k=>G[k])).sort((a,b)=>{const [x1,y1]=a.split("-").map(Number),[x2,y2]=b.split("-").map(Number);return x1-x2||y1-y2});
-ASSESS.push({id:"CUM-1-3",topic:null,kind:"cumulative",name:"Cumulative review: Topics 1–3",lessons:LIB_LESSONS,n:30,min:45,retests:6});
+const CUR_TOPIC=3; // the topic she is on now (update each new topic)
 // dynamic assessments: single-skill drills and weak-spot rounds
 function dynAssess(id){if(!id)return undefined;let a;
   if(id.startsWith("DRILL-")){const k=id.slice(6);if(!G[k])return undefined;a={id,topic:null,kind:"drill",name:"Practice: "+SK[k],lessons:[LESSON[k]],skills:[k],n:10,min:15}}
@@ -47,7 +47,10 @@ function renderReview(){const S2=skillStats(),wl=weakList(),el=document.getEleme
   // start a review
   h+=`<section class="topic"><div class="thead"><span class="tnum">Start a review</span></div><div class="arow">
     <button class="acard" data-weak="1"><span class="aname">Weak-spot round</span><span class="ales">10 questions on her ${Math.min(5,wl.length)||"top"} weakest skills</span><span class="st guided">${wl.length?wl.slice(0,5).map(k=>SK[k]).join(" · "):"No weak spots yet"}</span></button>
-    <button class="acard" data-open="CUM-1-3"><span class="aname">Cumulative review: Topics 1–3</span><span class="ales">30 questions across every lesson, plus re-tests on weak spots</span><span class="st ${statusOf("CUM-1-3").cls}">${statusOf("CUM-1-3").txt}</span></button>
+    <button class="acard" data-open="CUM-1-${CUR_TOPIC}"><span class="aname">Cumulative review: Topics 1–${CUR_TOPIC}</span><span class="ales">30 questions across every lesson so far, plus re-tests on weak spots</span><span class="st ${statusOf("CUM-1-"+CUR_TOPIC).cls}">${statusOf("CUM-1-"+CUR_TOPIC).txt}</span></button>
+    <button class="acard" data-open="CUM-1-5"><span class="aname">Semester 1 review</span><span class="ales">Topics 1–5</span><span class="st ${statusOf("CUM-1-5").cls}">${statusOf("CUM-1-5").txt}</span></button>
+    <button class="acard" data-open="CUM-1-11"><span class="aname">Year-end review</span><span class="ales">Topics 1–11, every lesson</span><span class="st ${statusOf("CUM-1-11").cls}">${statusOf("CUM-1-11").txt}</span></button>
+    <div class="acard"><span class="aname">Other cumulative</span><span class="ales"><select id="cumThrough" class="in">${COURSE.filter(T=>T.t>=2).map(T=>`<option value="${T.t}"${T.t===CUR_TOPIC?" selected":""}>Topics 1–${T.t}</option>`).join("")}</select></span><button class="btn sm" data-cumgo="1">Open</button></div>
     ${dyn.map(a=>{const s=statusOf(a.id);return`<button class="acard" data-open="${a.id}"><span class="aname">${escH(a.name)}</span><span class="ales">${a.skills.map(k=>SK[k]).join(" · ")}</span><span class="st ${s.cls}">${s.txt}</span></button>`}).join("")}</div></section>`;
   // weak spots
   const keys=Object.keys(S2).filter(k=>G[k]&&(REV_FILTER==="all"||(REV_FILTER==="weak"?S2[k].status==="weak"||S2[k].status==="watch":true))).sort((a,b)=>LIB_LESSONS.indexOf(LESSON[a])-LIB_LESSONS.indexOf(LESSON[b])||SK[a].localeCompare(SK[b]));
@@ -112,6 +115,7 @@ document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)r
   if(d.revf){REV_FILTER=d.revf;renderReview();return}
   if(d.drill){const id="DRILL-"+d.drill;AM(id);open(id);showTab("tabPractice");render();window.scrollTo({top:0});return}
   if(d.weak){const id="WEAK-"+Date.now();AM(id);open(id);showTab("tabPractice");render();window.scrollTo({top:0});return}
+  if(d.cumgo){const n=(document.getElementById("cumThrough")||{}).value||CUR_TOPIC;open("CUM-1-"+n);showTab("tabPractice");render();window.scrollTo({top:0});return}
   if(d.sdel){deleteSchool(d.sdel);return}
   if(d.sdelok){window.__pcode=(document.getElementById("sdcode")||{}).value||"";deleteSchool(d.sdelok);window.__pcode="";return}
 });

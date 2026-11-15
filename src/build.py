@@ -54,6 +54,8 @@ eng=eng.replace(pn,open('note.txt').read().rstrip('\n'))
 import json as _j
 lib=open('library.js').read().replace('__HISTORY__',_j.dumps(_j.load(open('history.json')),ensure_ascii=False))
 t2a=open('t2adapter.js').read();g1=open('gen1.js').read();ext=open('extras.js').read()
+import glob
+gy='\n'.join(open(f).read() for f in sorted(glob.glob('genY[0-9].js'))+['genYz.js'])
 def rp(old,new):
     global eng
     if eng.count(old)!=1: sys.exit('engine patch count '+str(eng.count(old))+': '+old[:60])
@@ -75,14 +77,16 @@ rp('For each step, first choose what we should do next. Then do it.','Work throu
 rp('Copy results</button></div><div id="cmsg"></div></div>`;','Copy results</button></div><div id="cmsg"></div></div>`;h+=extraParentHTML();')
 rp(' (useful when she practices on the web copy, where Claude can\'t see her progress)','')
 rp('if(push)queueSync()}','if(push){queueSync();pushRecord()}}')
+rp('LESSON[it.skill]?" · Lesson "+LESSON[it.skill]:""}</span></div>','LESSON[it.skill]?" · Lesson "+LESSON[it.skill]:""}</span><button class="linkbtn flagbtn" data-flag="1" title="Report a confusing or wrong question">⚑ Flag</button></div><div id="flagbox"></div>')
+rp('Copy results</button></div><div id="cmsg"></div></div>`;h+=extraParentHTML();','Copy results</button></div><div id="cmsg"></div></div>`;h+=flagsHTML();h+=extraParentHTML();')
 rp('loadLocal();open(CUR);render();','loadLocal();loadDynLocal();open(CUR);render();')
-rp('  try{if(await pullProgress()){ITEMS={};S=STORE[CUR];render()}}catch(e){SYNC.err=String(e.message||e)}','  try{if(await pullProgress()){ITEMS={};S=STORE[CUR];render()}}catch(e){SYNC.err=String(e.message||e)}\n  await loadSchool();pushRecord();if(SYNC.mode==="web")document.getElementById("webnote").hidden=false;if(!document.getElementById("review").hidden)renderReview();')
+rp('  try{if(await pullProgress()){ITEMS={};S=STORE[CUR];render()}}catch(e){SYNC.err=String(e.message||e)}','  try{if(await pullProgress()){ITEMS={};S=STORE[CUR];render()}}catch(e){SYNC.err=String(e.message||e)}\n  await loadSchool();await loadFlags();pushRecord();if(SYNC.mode==="web")document.getElementById("webnote").hidden=false;if(!document.getElementById("review").hidden)renderReview();')
 head2=head.replace('<button class="tab" id="tabParent" aria-pressed="false">Parent view</button>','<button class="tab" id="tabReview" aria-pressed="false">Review library</button>\n      <button class="tab" id="tabParent" aria-pressed="false">Parent view</button>')
 head2=head2.replace('<div class="card prep" id="prep" hidden></div>','<div class="fb tip" id="webnote" hidden>Website copy: her progress syncs online, so she can use any browser or device. Parent view shows the sync status.</div>\n  <div class="card prep" id="prep" hidden></div>')
 head2=head2.replace('<div id="parent" class="card parent" hidden></div>','<div id="review" class="card" hidden></div>\n  <div id="parent" class="card parent" hidden></div>')
 head2=head2.replace('</style>\n<div class="wrap">',open('extra.css').read()+'</style>\n<div class="wrap">',1)
 assert head2.count('tabReview')==1 and head2.count('id="review"')==1
-out=head2+'\n'+helpers+'\n'+gen+'\n'+t2a+'\n'+g1+'\n'+course+'\n'+lib+'\n'+ext+'\n'+eng
+out=head2+'\n'+helpers+'\n'+gen+'\n'+t2a+'\n'+g1+'\n'+gy+'\n'+course+'\n'+lib+'\n'+ext+'\n'+eng
 out=out.replace("(same as Araaya's lab)","(same as the sister lab)").replace("(same idea as Araaya's lab)","(same idea as the sister lab)")
 assert 'Araaya' not in out, [m.start() for m in re.finditer('Araaya',out)]
 open(os.path.join(D,'..','index.html'),'w',encoding='utf8').write(out)
